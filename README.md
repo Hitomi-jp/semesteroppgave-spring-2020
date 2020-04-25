@@ -10,7 +10,14 @@ Oppsett
 4. Installer Maven https://maven.apache.org/download.cgi
 5. I Intellij: Gå til Setting, søk "Maven". Sett maven home directory til der du installerte Maven (f.eks "C:\Program Files\apache-maven-3.6.3").
 
+Make clone again
+File -> New -> Project from Version Control -> select Git Hub from Left (Repository URL or Git Hub you can see) -> choose project
+
+
+
 
 How to upload code
 1. For example write code in App
-2. 
+2. Version Control(bottom you can see)
+3. Local Changes
+4. 
