@@ -13,11 +13,16 @@ Oppsett
 Make clone again
 File -> New -> Project from Version Control -> select Git Hub from Left (Repository URL or Git Hub you can see) -> choose project
 
+VM opption
 --module-path "C:\Program Files\javafx-sdk-13.0.2\lib" --add-modules javafx.controls,javafx.fxml
 
+"C:\Program Files\javafx-sdk-13.0.2\lib" -> you have to choose yourself.
 
 How to upload code
 1. For example write code in App
 2. Version Control(bottom you can see)
 3. Local Changes
-4. 
+4. Right click Default Changelist
+5. Commit file
+6. Write what you did
+7. commit and push
