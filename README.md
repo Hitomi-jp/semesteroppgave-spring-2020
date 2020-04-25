@@ -13,7 +13,7 @@ Oppsett
 Make clone again
 File -> New -> Project from Version Control -> select Git Hub from Left (Repository URL or Git Hub you can see) -> choose project
 
-
+--module-path "C:\Program Files\javafx-sdk-13.0.2\lib" --add-modules javafx.controls,javafx.fxml
 
 
 How to upload code
