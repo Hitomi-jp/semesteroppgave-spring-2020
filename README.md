@@ -9,3 +9,8 @@ Oppsett
 3. Velg "Version Control" nederst i intellij. Under "Unversioned files", høyreklikk på filen ".gitignore" og velg "Add to .gitignore" -> "git/info/exclude"
 4. Installer Maven https://maven.apache.org/download.cgi
 5. I Intellij: Gå til Setting, søk "Maven". Sett maven home directory til der du installerte Maven (f.eks "C:\Program Files\apache-maven-3.6.3").
+
+
+How to upload code
+1. For example write code in App
+2. 
