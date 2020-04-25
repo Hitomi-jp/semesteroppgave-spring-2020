@@ -25,4 +25,8 @@ How to upload code
 4. Right click Default Changelist
 5. Commit file
 6. Write what you did
-7. commit and push
+7. Rigth bottom click commit and push
+8. Push
+
+Upload file
+1. Click blue arrow next to Git:
