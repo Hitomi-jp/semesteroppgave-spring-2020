@@ -1,16 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PrimaryController">
    <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
+      <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="377.0" layoutY="30.0" text="Administrator" AnchorPane.leftAnchor="377.0" AnchorPane.rightAnchor="377.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="TOP_CENTER" layoutX="117.0" layoutY="104.0" prefHeight="180.0" prefWidth="700.0" spacing="80.0" AnchorPane.leftAnchor="117.0" AnchorPane.topAnchor="104.0">
+         <children>
+            <VBox prefHeight="150.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Car Type" />
+                  <TextField fx:id="txtCarTypeProductName" />
+                  <Label prefHeight="20.0" prefWidth="100.0" text="Price" />
+                  <TextField fx:id="txtCarTypePrice" />
+                  <HBox prefHeight="30.0" prefWidth="180.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#btnCarTypeAdd" prefWidth="50.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnCarTypeDelete" prefWidth="50.0" text="Delete" />
+                        <Button mnemonicParsing="false" prefWidth="50.0" text="Save" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Components Name" />
+                  <TextField fx:id="txtComponentsProductName" />
+                  <Label text="Price" />
+                  <TextField fx:id="txtComponentsPrice" />
+                  <HBox prefHeight="30.0" prefWidth="180.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#btnComponentsAdd" prefWidth="50.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnComponentsDelete" prefWidth="50.0" text="Delete" />
+                        <Button mnemonicParsing="false" prefWidth="50.0" text="Save" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Extra Options Name" />
+                  <TextField fx:id="txtExtraOptionsName" />
+                  <Label text="Price" />
+                  <TextField fx:id="txtExtraOptionsPrice" />
+                  <HBox prefHeight="30.0" prefWidth="180.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#btnOptionsAdd" prefWidth="50.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnOptionsDelete" prefWidth="53.0" text="Delete" />
+                        <Button mnemonicParsing="false" prefWidth="50.0" text="Save" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_CENTER" layoutX="22.0" layoutY="284.0" prefHeight="150.0" prefWidth="890.0" spacing="30.0">
+         <children>
+            <TableView fx:id="tableViewCarType" prefHeight="150.0" prefWidth="400.0">
+              <columns>
+                <TableColumn fx:id="carTypeNameColum" prefWidth="200.0" text="Car Type" />
+                <TableColumn fx:id="carTypePriceColum" prefWidth="200.0" text="Car Type Price" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewComponents" prefHeight="1.0" prefWidth="400.0">
+              <columns>
+                <TableColumn fx:id="componentsNameColum" onEditCommit="#componentNameEdit" prefWidth="200.0" text="Components Name" />
+                <TableColumn fx:id="componentsPriceColum" onEditCommit="#componentsPriceEdit" prefWidth="200.0" text="Components Price" />
+              </columns>
+            </TableView>
+         </children></HBox>
+      <TableView fx:id="tableViewExtraOptions" layoutX="50.0" layoutY="458.0" prefHeight="150.0" prefWidth="400.0">
+        <columns>
+          <TableColumn fx:id="extraOptionsNameColum" prefWidth="200.0" text="Extra Options" />
+          <TableColumn fx:id="extraOptionsPriceColum" prefWidth="200.0" text="Extra Options Price" />
+        </columns>
+      </TableView>
+      <Button fx:id="ButtonAdmin" layoutX="725.0" layoutY="35.0" mnemonicParsing="false" onAction="#GoToCustomer" prefHeight="46.0" prefWidth="150.0" text="Customer View" AnchorPane.rightAnchor="24.599999999999994" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextArea fx:id="txtUt" layoutX="488.0" layoutY="458.0" prefHeight="150.0" prefWidth="390.0" />
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+</AnchorPane>
