@@ -19,7 +19,9 @@ public class Components implements Serializable {
 
 
     public Components(String componentsName, double componentsPrice) {
-
+        if (!CarValidator.price(componentsPrice)) {
+            throw new InvalidPriceException();
+        }
         this.componentsName = new SimpleStringProperty(componentsName);
         this.componentsPrice = new SimpleDoubleProperty(componentsPrice);
 
@@ -31,6 +33,9 @@ public class Components implements Serializable {
     }
 
     public void setComponentsName(String componentsName) {
+        if (!CarValidator.name(componentsName)) {
+            throw new InvalidNameException();
+        }
 
         this.componentsName.set(componentsName);
     }
@@ -41,6 +46,9 @@ public class Components implements Serializable {
 
 
     public void setComponentsPrice(double componentsPrice) {
+        if (!CarValidator.price(componentsPrice)) {
+            throw new InvalidPriceException();
+        }
         this.componentsPrice.set(componentsPrice);
     }
 

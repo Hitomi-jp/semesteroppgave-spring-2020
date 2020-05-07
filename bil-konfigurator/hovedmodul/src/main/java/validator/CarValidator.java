@@ -9,7 +9,7 @@ public class CarValidator {
         return Pattern.matches("^[A-Z].*",name);
     }
     public static boolean price(double price) {
-        return price >= 0;
+        return price >= 0.0;
     }
 
 
