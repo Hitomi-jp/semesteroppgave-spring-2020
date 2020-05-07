@@ -7,16 +7,21 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import validator.CarValidator;
 
-public class Components {
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Components implements Serializable {
 
     private SimpleStringProperty componentsName;
-    private SimpleIntegerProperty componentsPrice;
+    private SimpleDoubleProperty componentsPrice;
 
 
-    public Components(String componentsName, int componentsPrice) {
+    public Components(String componentsName, double componentsPrice) {
 
         this.componentsName = new SimpleStringProperty(componentsName);
-        this.componentsPrice = new SimpleIntegerProperty(componentsPrice);
+        this.componentsPrice = new SimpleDoubleProperty(componentsPrice);
 
     }
 
@@ -27,25 +32,17 @@ public class Components {
 
     public void setComponentsName(String componentsName) {
 
-        if (!CarValidator.name(componentsName)) {
-            throw new InvalidNameException();
-        }
-
         this.componentsName.set(componentsName);
     }
 
-    public int getComponentsPrice() {
+    public double getComponentsPrice() {
         return componentsPrice.getValue();
     }
 
 
-    public void setComponentsPrice(int componentsPrice) {
-            if (!CarValidator.price(componentsPrice)) {
-                throw new InvalidPriceException();
-            }
-
-            this.componentsPrice.set(componentsPrice);
-        }
+    public void setComponentsPrice(double componentsPrice) {
+        this.componentsPrice.set(componentsPrice);
+    }
 
 
     @Override
@@ -59,6 +56,14 @@ public class Components {
         sb.append(componentsPrice.getValue()).append(",");
         //sb.append("\n")
         return sb.toString();
+    }
+
+    //Serialization class needs to be implements Serializable(Write to binary)
+
+    public static void writeToFile(Components com) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("Component.bin"));
+
+        objectOutputStream.writeObject(com);
     }
 
 }

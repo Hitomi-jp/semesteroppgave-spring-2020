@@ -7,10 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import validator.CarValidator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComponentsRegister {
+public class ComponentsRegister implements Serializable {
+
     ArrayList<Components> componentsArrayList = new ArrayList<>();
 
     public String validateAndRegisterComponents(String componentsName, String componentsPrice) {
@@ -24,9 +26,9 @@ public class ComponentsRegister {
             return e.getMessage();
         }
 
-        int intComponentsPrice;
+        double intComponentsPrice;
         try {
-            intComponentsPrice = Integer.parseInt(componentsPrice);
+            intComponentsPrice = Double.parseDouble(componentsPrice);
         } catch (NumberFormatException e) {
             return "Invalid data. Price must be numbers.";
         }
@@ -55,6 +57,7 @@ public class ComponentsRegister {
             componentsList.append(c).append("\n");
         }
         return componentsList.toString();
+
     }
 
     public String toCvs() {
