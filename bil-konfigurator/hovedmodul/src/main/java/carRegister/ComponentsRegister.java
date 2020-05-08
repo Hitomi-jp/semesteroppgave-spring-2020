@@ -13,7 +13,19 @@ import java.util.List;
 
 public class ComponentsRegister implements Serializable {
 
-    ArrayList<Components> componentsArrayList = new ArrayList<>();
+    private ObservableList<Components> comRegister = FXCollections.observableArrayList();
+    //ArrayList<Components> componentsArrayList = new ArrayList<>();
+    public List<Components> all_components() {
+        return comRegister;
+    }
+
+    public void addComponent(Components c) {
+        comRegister.add(c);
+    }
+
+    public void removeAll() {
+        comRegister.clear();
+    }
 
     public String validateAndRegisterComponents(String componentsName, String componentsPrice) {
 
@@ -41,19 +53,17 @@ public class ComponentsRegister implements Serializable {
         }
 
         Components enComponents = new Components(componentsName, intComponentsPrice);
-        componentsArrayList.add(enComponents);
+        comRegister.add(enComponents);
 
         return showRegister();
 
     }
 
-    public List<Components> all_components() {
-        return componentsArrayList;
-    }
+
 
     public String showRegister() {
         StringBuilder componentsList = new StringBuilder();
-        for (Components c : componentsArrayList) {
+        for (Components c : comRegister) {
             componentsList.append(c).append("\n");
         }
         return componentsList.toString();
@@ -62,13 +72,13 @@ public class ComponentsRegister implements Serializable {
 
     public String toCvs() {
         StringBuilder sb = new StringBuilder();
-        for (Components c : componentsArrayList) {
+        for (Components c : comRegister) {
             sb.append(c.toCvs()).append("\n");
         }
         return sb.toString();
     }
 
     public void flush() {
-        componentsArrayList.clear();
+        comRegister.clear();
     }
 }
