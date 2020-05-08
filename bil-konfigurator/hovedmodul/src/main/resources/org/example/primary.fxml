@@ -28,8 +28,8 @@
                   <TextField fx:id="txtCarTypePrice" />
                   <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="0.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnCarTypeAdd" prefHeight="26.0" prefWidth="99.0" text="Add/Update" />
-                        <Button mnemonicParsing="false" onAction="#btnCarTypeDelete" prefWidth="50.0" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#btnCarTypeAdd" prefHeight="26.0" prefWidth="70.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnCarTypeDelete" prefWidth="60.0" text="Delete" />
                         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="File Save" />
                      </children>
                   </HBox>
@@ -51,10 +51,10 @@
                   <TextField fx:id="txtComponentsProductName" />
                   <Label text="Price" />
                   <TextField fx:id="txtComponentsPrice" />
-                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnComponentsAdd" prefHeight="26.0" prefWidth="99.0" text="Add/Update" />
-                        <Button mnemonicParsing="false" onAction="#btnComponentsDelete" prefWidth="50.0" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#btnComponentsAdd" prefHeight="26.0" prefWidth="70.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnComponentsDelete" prefWidth="60.0" text="Delete" />
                         <Button mnemonicParsing="false" onAction="#btnComponentsFileSave" prefHeight="26.0" prefWidth="80.0" text="File Save" />
                      </children>
                   </HBox>
@@ -75,10 +75,10 @@
                   <TextField fx:id="txtExtraOptionsName" />
                   <Label text="Price" />
                   <TextField fx:id="txtExtraOptionsPrice" />
-                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnOptionsAdd" prefHeight="26.0" prefWidth="99.0" text="Add/Update" />
-                        <Button mnemonicParsing="false" onAction="#btnOptionsDelete" prefWidth="50.0" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#btnOptionsAdd" prefHeight="26.0" prefWidth="70.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnOptionsDelete" prefWidth="60.0" text="Delete" />
                         <Button mnemonicParsing="false" prefWidth="80.0" text="FileSave" />
                      </children>
                   </HBox>
