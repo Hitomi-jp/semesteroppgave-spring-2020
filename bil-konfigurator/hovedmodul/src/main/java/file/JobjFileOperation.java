@@ -3,6 +3,8 @@ package file;
 import java.io.*;
 
 public class JobjFileOperation implements FileOpen,FileSave {
+    private final String FILENAME_REGISTRY = "Registry.dat";
+
     @Override
     public void open(File file) throws IOException {
         try (FileInputStream fis = new FileInputStream(file)) {
@@ -18,10 +20,9 @@ public class JobjFileOperation implements FileOpen,FileSave {
     }
 
     @Override
-    public void save(String fileName, String fileContents) throws IOException {
-        FileOutputStream fos = new FileOutputStream("biOutput.dat");
+    public void save(Object o) throws IOException {
+        FileOutputStream fos = new FileOutputStream(FILENAME_REGISTRY);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(fileContents);
-
+        oos.writeObject(o);
     }
 }

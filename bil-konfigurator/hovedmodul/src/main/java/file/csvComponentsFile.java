@@ -11,7 +11,7 @@ public class csvComponentsFile implements FileOpen, FileSave {
     }
 
     @Override
-    public void save(String fileName, String fileContents) throws IOException {
+    public void save(Object o) throws IOException {
 
     }
 }

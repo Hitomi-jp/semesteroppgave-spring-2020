@@ -1,91 +1,105 @@
 package carRegister;
 
-import exception.InvalidDataTypeException;
 import exception.InvalidNameException;
 import exception.InvalidPriceException;
+import file.JobjFileOperation;
+import forms.ComponentForm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import validator.CarValidator;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComponentsRegister implements Serializable {
 
-    private ObservableList<Components> comRegister = FXCollections.observableArrayList();
+    private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
+
     //ArrayList<Components> componentsArrayList = new ArrayList<>();
-    public List<Components> all_components() {
-        return comRegister;
+    public List<Component> all_components() {
+        return componentObservableList;
     }
 
-    public void addComponent(Components c) {
-        comRegister.add(c);
+    public void addComponent(Component c) {
+        componentObservableList.add(c);
     }
 
     public void removeAll() {
-        comRegister.clear();
+        componentObservableList.clear();
     }
 
     public String validateAndRegisterComponents(String componentsName, String componentsPrice) {
 
-        try {
-            if (!CarValidator.name(componentsName)) {
-                return "Invalid component name. Start with Capital letter.";
-            }
 
-        } catch (InvalidNameException e) {
-            return e.getMessage();
+      //  ComponentsOLD enComponentsOLD = new ComponentsOLD(componentsName, intComponentsPrice);
+        //comRegister.add(enComponentsOLD);
+
+        //return showRegister();
+        return "";
+    }
+
+    public void registrerComponent(ComponentForm componentForm) throws IllegalArgumentException {
+        this.validate(componentForm);
+        componentObservableList.add( componentForm.asComponent() );
+    }
+
+    private void validate(ComponentForm componentForm) throws IllegalArgumentException {
+        if (!CarValidator.name(componentForm.getName())) {
+            throw new InvalidNameException(componentForm.getName());
         }
 
-        double intComponentsPrice;
+        double componentPrice;
         try {
-            intComponentsPrice = Double.parseDouble(componentsPrice);
+            componentPrice = Double.parseDouble(componentForm.getPrice());
         } catch (NumberFormatException e) {
-            return "Invalid data. Price must be numbers.";
-        }
-        try{
-            if(!CarValidator.price(intComponentsPrice)){
-                return "Invalid component price. Price must be 0 or over";
-            }
-        } catch (InvalidPriceException e) {
-            return e.getMessage();
+            throw new InvalidPriceException(componentForm.getPrice());
         }
 
-        Components enComponents = new Components(componentsName, intComponentsPrice);
-        comRegister.add(enComponents);
-
-        return showRegister();
+        if (!CarValidator.price(componentPrice)) {
+            throw new InvalidPriceException(componentForm.getPrice());
+        }
 
     }
 
+    public ObservableList<Component> getComponentObservableList() {
+        return componentObservableList;
+    }
 
+    public void setComponentObservableList(ObservableList<Component> componentObservableList) {
+        this.componentObservableList = componentObservableList;
+    }
 
     public String showRegister() {
         StringBuilder componentsList = new StringBuilder();
-        for (Components c : comRegister) {
+        for (Component c : componentObservableList) {
             componentsList.append(c).append("\n");
         }
         return componentsList.toString();
-
     }
 
     public String toCvs() {
         StringBuilder sb = new StringBuilder();
-        for (Components c : comRegister) {
+        for (Component c : componentObservableList) {
             sb.append(c.toCvs()).append("\n");
         }
         return sb.toString();
     }
 
-    public String deleteComponents(String componentsName, String componentsPrice){
-        Components enComponent = new Components(componentsName,Double.parseDouble(componentsPrice));
-        comRegister.remove(enComponent);
-
-        return showRegister();
+    public void deleteComponent(Component componentToRemove) {
+        componentObservableList.remove(componentToRemove);
     }
 
     public void flush() {
-        comRegister.clear();
+        componentObservableList.clear();
+    }
+
+    public void save() {
+        JobjFileOperation fileOps = new JobjFileOperation();
+        try {
+            fileOps.save(componentObservableList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

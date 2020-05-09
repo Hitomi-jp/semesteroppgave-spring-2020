@@ -1,11 +1,12 @@
 package org.example;
 
-import carRegister.Components;
+import carRegister.Component;
 import carRegister.ComponentsRegister;
 import exception.InvalidNameException;
 import exception.PriceStringConverter;
 import file.FileOpen;
 import file.FileSave;
+import forms.ComponentForm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,13 +55,13 @@ public class PrimaryController implements Initializable {
     private TableColumn<?, ?> carTypePriceColum;
 
     @FXML
-    private TableView<Components> tableViewComponents;
+    private TableView<Component> tableViewComponents;
 
     @FXML
-    private TableColumn<Components, String> componentsNameColum;
+    private TableColumn<Component, String> componentsNameColum;
 
     @FXML
-    private TableColumn<Components, Double> componentsPriceColum;
+    private TableColumn<Component, Double> componentsPriceColum;
 
     @FXML
     private TableView<?> tableViewExtraOptions;
@@ -83,14 +84,17 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCols();
-        registerComponents();
-
+        refreshTableViewComponents();
 
         //This will allow the table to select multiple rows at once.
         tableViewComponents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //Tableview components column eidtable
         tableViewComponents.setEditable(true);
+
+        tableViewComponents.setItems(comRegister.getComponentObservableList());
+        componentsNameColum.setCellValueFactory(nameCell -> nameCell.getValue().componentsNameProperty());
+        //tableViewComponents.getColumns().get(0).setCellValueFactory();
         componentsNameColum.setCellFactory(TextFieldTableCell.forTableColumn());
         componentsPriceColum.setCellFactory(TextFieldTableCell.forTableColumn(dStrConverter));
     }
@@ -113,25 +117,28 @@ public class PrimaryController implements Initializable {
     @FXML
     void btnComponentsAdd(ActionEvent event) {
         txtUt.setText(comRegister.validateAndRegisterComponents(txtComponentsProductName.getText(), txtComponentsPrice.getText()));
-        registerComponents();
+        refreshTableViewComponents();
     }
 
     @FXML
     void btnComponentsDelete(ActionEvent event) {
-
-        ObservableList<Components> allComponents, selectedComponents;
+        ObservableList<Component> allComponents, selectedComponents;
         allComponents = tableViewComponents.getItems();
         selectedComponents = tableViewComponents.getSelectionModel().getSelectedItems();
         allComponents.removeAll(selectedComponents);
-        txtUt.setText(comRegister.showRegister());
 
+        for(Component c : selectedComponents) {
+            comRegister.deleteComponent(c);
+        }
+
+        txtUt.setText(comRegister.showRegister());
     }
 
 
-    public void componentNameEdit(TableColumn.CellEditEvent<Components, String> componentsStringCellEditEvent) {
+    public void componentNameEdit(TableColumn.CellEditEvent<Component, String> componentsStringCellEditEvent) {
         try {
-            Components components = tableViewComponents.getSelectionModel().getSelectedItem();
-            components.setComponentsName(componentsStringCellEditEvent.getNewValue());
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentsName(componentsStringCellEditEvent.getNewValue());
 
         } catch (InvalidNameException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -144,10 +151,10 @@ public class PrimaryController implements Initializable {
         }
     }
 
-    public void componentsPriceEdit(TableColumn.CellEditEvent<Components, Double> componentsDoubleCellEditEvent) {
+    public void componentsPriceEdit(TableColumn.CellEditEvent<Component, Double> componentsDoubleCellEditEvent) {
         try {
-            Components components = tableViewComponents.getSelectionModel().getSelectedItem();
-            components.setComponentsPrice(componentsDoubleCellEditEvent.getNewValue());
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentsPrice(componentsDoubleCellEditEvent.getNewValue());
         } catch (NumberFormatException e) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -162,17 +169,17 @@ public class PrimaryController implements Initializable {
     }
 
     public void btnComponentsFileSave(ActionEvent actionEvent) {
-
+        comRegister.save();
     }
 
     public void btnComponentsFileOpen(ActionEvent actionEvent) {
 
     }
 
-    public ObservableList<Components> getComponents() {
-        ObservableList<Components> components = FXCollections.observableArrayList();
-        components.add(new Components("Motor", 500000));
-        components.add(new Components("Rim", 20000));
+    public ObservableList<Component> getComponents() {
+        ObservableList<Component> components = FXCollections.observableArrayList();
+        components.add(new Component("Motor", 500000));
+        components.add(new Component("Rim", 20000));
 
         return components;
     }
@@ -180,18 +187,28 @@ public class PrimaryController implements Initializable {
 
     //clear all the columns(go to initialize)
     private void initCols() {
-        componentsNameColum.setCellValueFactory(new PropertyValueFactory<Components, String>("componentsName"));
-        componentsPriceColum.setCellValueFactory(new PropertyValueFactory<Components, Double>("componentsPrice"));
+        componentsNameColum.setCellValueFactory(new PropertyValueFactory<Component, String>("componentsName"));
+        componentsPriceColum.setCellValueFactory(new PropertyValueFactory<Component, Double>("componentsPrice"));
     }
 
-    private void registerComponents() {
-
-        ObservableList<Components> allComponentsData = FXCollections.observableArrayList();
-        allComponentsData.addAll(comRegister.all_components());
-        tableViewComponents.setItems(allComponentsData);
+    private void refreshTableViewComponents() {
+        ObservableList<Component> allComponentData = FXCollections.observableArrayList();
+        allComponentData.addAll(comRegister.all_components());
+        tableViewComponents.setItems(allComponentData);
     }
 
     public void btnOptionsAdd(ActionEvent actionEvent) {
+        ComponentForm cForm = new ComponentForm(
+                txtComponentsProductName.getText(),
+                txtComponentsPrice.getText()
+        );
+
+        comRegister.registrerComponent( cForm );
+
+        txtUt.setText( comRegister.showRegister() );
+
+        //tableViewComponents.refresh();
+        refreshTableViewComponents();
     }
 
     public void btnOptionsDelete(ActionEvent actionEvent) {
