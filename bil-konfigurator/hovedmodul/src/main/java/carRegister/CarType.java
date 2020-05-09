@@ -7,25 +7,29 @@ import java.io.Serializable;
 public class CarType implements Serializable {
 
     private SimpleStringProperty type;
-    private SimpleStringProperty name;
+    private SimpleStringProperty model;
     private SimpleDoubleProperty price;
 
-    public CarType(Type type, String name, double price) {
-        this.type = new SimpleStringProperty(type.name());
-        this.name = new SimpleStringProperty(name);
+    public CarType(EngineType engineType, String model, double price) {
+        this.type = new SimpleStringProperty(engineType.name());
+        this.model = new SimpleStringProperty(model);
         this.price = new SimpleDoubleProperty(price);
     }
 
-    public String getName() {
-        return name.get();
+    public SimpleStringProperty typeProperty() {
+        return type;
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
+    public String getModel() {
+        return model.get();
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public SimpleStringProperty modelProperty() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model.set(model);
     }
 
     public double getPrice() {

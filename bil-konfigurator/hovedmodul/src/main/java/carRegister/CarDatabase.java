@@ -3,6 +3,7 @@ package carRegister;
 import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import file.JobjFileOperation;
+import forms.CarTypeForm;
 import forms.ComponentForm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,38 +11,20 @@ import validator.CarValidator;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
-public class ComponentsRegister implements Serializable {
+public class CarDatabase implements Serializable {
 
+    private ObservableList<CarType> carTypeObservableList = FXCollections.observableArrayList();
     private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
 
-    //ArrayList<Components> componentsArrayList = new ArrayList<>();
-    public List<Component> all_components() {
-        return componentObservableList;
+    public void register(CarTypeForm carTypeForm) throws IllegalArgumentException {
+        this.validate(carTypeForm);
+        carTypeObservableList.add(carTypeForm.asCarType());
     }
 
-    public void addComponent(Component c) {
-        componentObservableList.add(c);
-    }
-
-    public void removeAll() {
-        componentObservableList.clear();
-    }
-
-    public String validateAndRegisterComponents(String componentsName, String componentsPrice) {
-
-
-      //  ComponentsOLD enComponentsOLD = new ComponentsOLD(componentsName, intComponentsPrice);
-        //comRegister.add(enComponentsOLD);
-
-        //return showRegister();
-        return "";
-    }
-
-    public void registrerComponent(ComponentForm componentForm) throws IllegalArgumentException {
+    public void register(ComponentForm componentForm) throws IllegalArgumentException {
         this.validate(componentForm);
-        componentObservableList.add( componentForm.asComponent() );
+        componentObservableList.add(componentForm.asComponent());
     }
 
     private void validate(ComponentForm componentForm) throws IllegalArgumentException {
@@ -62,15 +45,25 @@ public class ComponentsRegister implements Serializable {
 
     }
 
+    // TODO make sure carForm has valid data
+    private void validate(CarTypeForm carTypeForm) throws IllegalArgumentException {
+
+    }
+
     public ObservableList<Component> getComponentObservableList() {
         return componentObservableList;
     }
 
-    public void setComponentObservableList(ObservableList<Component> componentObservableList) {
-        this.componentObservableList = componentObservableList;
+    public ObservableList<CarType> getCarTypeObservableList() {
+        return carTypeObservableList;
     }
 
-    public String showRegister() {
+
+//    public void setComponentObservableList(ObservableList<Component> componentObservableList) {
+//        this.componentObservableList = componentObservableList;
+//    }
+
+    public String showData() {
         StringBuilder componentsList = new StringBuilder();
         for (Component c : componentObservableList) {
             componentsList.append(c).append("\n");

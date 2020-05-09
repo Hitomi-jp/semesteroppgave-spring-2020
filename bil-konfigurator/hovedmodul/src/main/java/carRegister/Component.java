@@ -4,7 +4,6 @@ import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import validator.CarValidator;
 
 import java.io.FileOutputStream;
@@ -14,57 +13,59 @@ import java.io.Serializable;
 
 public class Component implements Serializable {
 
-    private SimpleStringProperty componentsName;
-    private SimpleDoubleProperty componentsPrice;
+    private SimpleStringProperty componentName;
+    private SimpleDoubleProperty componentPrice;
 
 
-    public Component(String componentsName, double componentsPrice) {
-        if (!CarValidator.price(componentsPrice)) {
+    public Component(String componentName, double componentPrice) {
+        if (!CarValidator.price(componentPrice)) {
             throw new InvalidPriceException();
         }
-        this.componentsName = new SimpleStringProperty(componentsName);
-        this.componentsPrice = new SimpleDoubleProperty(componentsPrice);
+        this.componentName = new SimpleStringProperty(componentName);
+        this.componentPrice = new SimpleDoubleProperty(componentPrice);
 
     }
 
-    public SimpleStringProperty componentsNameProperty() {
-        return componentsName;
+    public SimpleStringProperty componentNameProperty() {
+        return componentName;
     }
 
-    public String getComponentsName() {
-        return componentsName.getValue();
+    public SimpleDoubleProperty componentPriceProperty() {
+        return componentPrice;
     }
 
-    public void setComponentsName(String componentsName) {
-        if (!CarValidator.name(componentsName)) {
+    public String getComponentName() {
+        return componentName.getValue();
+    }
+
+    public void setComponentName(String componentName) {
+        if (!CarValidator.name(componentName)) {
             throw new InvalidNameException();
         }
-
-        this.componentsName.set(componentsName);
+        this.componentName.set(componentName);
     }
 
-    public double getComponentsPrice() {
-        return componentsPrice.getValue();
+    public double getComponentPrice() {
+        return componentPrice.getValue();
     }
 
 
-    public void setComponentsPrice(double componentsPrice) {
-        if (!CarValidator.price(componentsPrice)) {
+    public void setComponentPrice(double componentPrice) {
+        if (!CarValidator.price(componentPrice)) {
             throw new InvalidPriceException();
         }
-        this.componentsPrice.set(componentsPrice);
+        this.componentPrice.set(componentPrice);
     }
-
 
     @Override
     public String toString() {
-        return String.format("%s,%s", componentsName.getValue(), componentsPrice.getValue());
+        return String.format("%s,%s", componentName.getValue(), componentPrice.getValue());
     }
 
     public String toCvs() {
         StringBuilder sb = new StringBuilder();
-        sb.append(componentsName.getValue()).append(",");
-        sb.append(componentsPrice.getValue()).append(",");
+        sb.append(componentName.getValue()).append(",");
+        sb.append(componentPrice.getValue()).append(",");
         //sb.append("\n")
         return sb.toString();
     }
@@ -73,7 +74,6 @@ public class Component implements Serializable {
 
     public static void writeToFile(Component com) throws IOException {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("Component.bin"));
-
         objectOutputStream.writeObject(com);
     }
 
