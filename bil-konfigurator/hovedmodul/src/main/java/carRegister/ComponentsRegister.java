@@ -78,6 +78,13 @@ public class ComponentsRegister implements Serializable {
         return sb.toString();
     }
 
+    public String deleteComponents(String componentsName, String componentsPrice){
+        Components enComponent = new Components(componentsName,Double.parseDouble(componentsPrice));
+        comRegister.remove(enComponent);
+
+        return showRegister();
+    }
+
     public void flush() {
         comRegister.clear();
     }

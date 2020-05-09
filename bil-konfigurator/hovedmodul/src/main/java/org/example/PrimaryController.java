@@ -4,6 +4,8 @@ import carRegister.Components;
 import carRegister.ComponentsRegister;
 import exception.InvalidNameException;
 import exception.PriceStringConverter;
+import file.FileOpen;
+import file.FileSave;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,9 +21,10 @@ import java.util.ResourceBundle;
 
 
 public class PrimaryController implements Initializable {
+    private boolean useTexFile = true;
 
-
-
+    FileOpen fileOpen;
+    FileSave fileSave;
 
     @FXML
     private TextField txtCarTypeProductName;
@@ -82,6 +85,7 @@ public class PrimaryController implements Initializable {
         initCols();
         registerComponents();
 
+
         //This will allow the table to select multiple rows at once.
         tableViewComponents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -114,14 +118,15 @@ public class PrimaryController implements Initializable {
 
     @FXML
     void btnComponentsDelete(ActionEvent event) {
+
         ObservableList<Components> allComponents, selectedComponents;
         allComponents = tableViewComponents.getItems();
         selectedComponents = tableViewComponents.getSelectionModel().getSelectedItems();
         allComponents.removeAll(selectedComponents);
-        /*for (Components components : selectedComponents) {
-            allComponents.remove(components);
-        }*/
+        txtUt.setText(comRegister.showRegister());
+
     }
+
 
     public void componentNameEdit(TableColumn.CellEditEvent<Components, String> componentsStringCellEditEvent) {
         try {
@@ -140,44 +145,37 @@ public class PrimaryController implements Initializable {
     }
 
     public void componentsPriceEdit(TableColumn.CellEditEvent<Components, Double> componentsDoubleCellEditEvent) {
-      try{
-          Components components = tableViewComponents.getSelectionModel().getSelectedItem();
-          components.setComponentsPrice(componentsDoubleCellEditEvent.getNewValue());
-      }catch (NumberFormatException e) {
+        try {
+            Components components = tableViewComponents.getSelectionModel().getSelectedItem();
+            components.setComponentsPrice(componentsDoubleCellEditEvent.getNewValue());
+        } catch (NumberFormatException e) {
 
-          Alert alert = new Alert(Alert.AlertType.ERROR);
-          alert.setTitle("Feil!");
-          alert.setHeaderText("Invalid data!");
-          alert.setContentText("Type correct date!");
-          alert.showAndWait();
-          e.printStackTrace();
-          throw new NumberFormatException();
-      }
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Feil!");
+            alert.setHeaderText("Invalid data!");
+            alert.setContentText("Type correct date!");
+            alert.showAndWait();
+            e.printStackTrace();
+            throw new NumberFormatException();
+        }
 
     }
 
-    /*public void btnComponentsFileSave(ActionEvent actionEvent) {
-        FileChooser fcComponents = new FileChooser();
-        fcComponents.setInitialDirectory(new File("C:\\Users\\Public"));
-        fcComponents.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        File selectedFile = fcComponents.showOpenDialog(null);
+    public void btnComponentsFileSave(ActionEvent actionEvent) {
 
-        if(selectedFile != null){
-            listview.getItems().add(selectedFile.getAbsolutePath));
+    }
 
-        }else{
-            System.out.prinln("file is not valid")
-            txtut.setText("File is not valid")
+    public void btnComponentsFileOpen(ActionEvent actionEvent) {
 
-    }*/
+    }
 
-   /* public ObservableList<Components> getComponents() {
+    public ObservableList<Components> getComponents() {
         ObservableList<Components> components = FXCollections.observableArrayList();
         components.add(new Components("Motor", 500000));
         components.add(new Components("Rim", 20000));
 
         return components;
-    }*/
+    }
 
 
     //clear all the columns(go to initialize)
@@ -205,9 +203,6 @@ public class PrimaryController implements Initializable {
 
     }
 
-
-    public void btnComponentsFileSave(ActionEvent actionEvent) {
-    }
 }
 
 
