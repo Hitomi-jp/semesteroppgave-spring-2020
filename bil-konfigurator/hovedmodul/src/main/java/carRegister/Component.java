@@ -6,16 +6,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import validator.CarValidator;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 public class Component implements Serializable {
 
-    private SimpleStringProperty componentName;
-    private SimpleDoubleProperty componentPrice;
-
+    private transient SimpleStringProperty componentName;
+    private transient SimpleDoubleProperty componentPrice;
 
     public Component(String componentName, double componentPrice) {
         if (!CarValidator.price(componentPrice)) {
@@ -23,7 +19,6 @@ public class Component implements Serializable {
         }
         this.componentName = new SimpleStringProperty(componentName);
         this.componentPrice = new SimpleDoubleProperty(componentPrice);
-
     }
 
     public SimpleStringProperty componentNameProperty() {
@@ -77,4 +72,17 @@ public class Component implements Serializable {
         objectOutputStream.writeObject(com);
     }
 
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        s.defaultWriteObject();
+        s.writeUTF(getComponentName());
+        s.writeDouble(getComponentPrice());
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        this.componentName = new SimpleStringProperty();
+        this.componentPrice = new SimpleDoubleProperty();
+
+        setComponentName(s.readUTF());
+        setComponentPrice(s.readDouble());
+    }
 }

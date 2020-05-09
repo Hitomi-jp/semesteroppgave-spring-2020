@@ -5,8 +5,6 @@ import carRegister.Component;
 import carRegister.CarDatabase;
 import carRegister.EngineType;
 import converter.Converter;
-import exception.InvalidNameException;
-import exception.PriceStringConverter;
 import forms.CarTypeForm;
 import forms.ComponentForm;
 import javafx.collections.ObservableList;
@@ -76,6 +74,7 @@ public class PrimaryController implements Initializable {
 
     private StringConverter<Number> nStrConverter = new Converter.Price();
     private CarDatabase carDatabase = new CarDatabase();
+    private final String FILENAME = "CarDataComponents.dat";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -208,10 +207,12 @@ public class PrimaryController implements Initializable {
 
     @FXML
     public void btnSave(ActionEvent actionEvent) {
+        carDatabase.save(FILENAME);
     }
 
     @FXML
     public void btnLoad(ActionEvent actionEvent) {
+        carDatabase.load(FILENAME);
     }
 }
 

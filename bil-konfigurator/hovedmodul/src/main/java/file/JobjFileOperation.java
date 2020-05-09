@@ -1,28 +1,38 @@
 package file;
 
+import carRegister.Component;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JobjFileOperation implements FileOpen,FileSave {
-    private final String FILENAME_REGISTRY = "Registry.dat";
+public class JobjFileOperation {
 
-    @Override
-    public void open(File file) throws IOException {
-        try (FileInputStream fis = new FileInputStream(file)) {
-            ObjectInputStream ostream = new ObjectInputStream(fis);
-            Object obj = "";
-            try {
-                obj = ostream.readObject();
-            } catch (EOFException | ClassNotFoundException e) {
-                e.printStackTrace();
+    public List<Component> load(String filename) throws IOException {
+        System.out.println("LOADFILE: " + filename);
+
+        try {
+            FileInputStream fis = new FileInputStream(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            ArrayList<Component> list = new ArrayList<>();
+            int compCount = ois.readInt();
+            for (int i = 0; i < compCount; i++) {
+                list.add((Component) ois.readObject());
             }
-            //return (String) obj;
+            return list;
+        } catch (EOFException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    @Override
-    public void save(Object o) throws IOException {
-        FileOutputStream fos = new FileOutputStream(FILENAME_REGISTRY);
+    public void save(List<Component> componentList, String filename) throws IOException {
+        FileOutputStream fos = new FileOutputStream(filename);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(o);
+        oos.writeInt(componentList.size());
+        for (Component c : componentList) {
+            oos.writeObject(c);
+        }
+        oos.close();
     }
 }

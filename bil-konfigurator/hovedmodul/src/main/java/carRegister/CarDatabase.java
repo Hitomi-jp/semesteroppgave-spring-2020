@@ -9,13 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import validator.CarValidator;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class CarDatabase implements Serializable {
 
     private ObservableList<CarType> carTypeObservableList = FXCollections.observableArrayList();
     private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
+    private final String FILENAME_DEFAULT = "CarDataComponentsDefault.dat";
+
+    public CarDatabase() {
+        loadDefaults();
+    }
 
     public void register(CarTypeForm carTypeForm) throws IllegalArgumentException {
         this.validate(carTypeForm);
@@ -87,10 +94,26 @@ public class CarDatabase implements Serializable {
         componentObservableList.clear();
     }
 
-    public void save() {
+    public void loadDefaults() {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        String filename = Objects.requireNonNull(classloader.getResource(FILENAME_DEFAULT)).getFile();
+        load(filename);
+    }
+
+    public void load(String filename) {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
-            fileOps.save(componentObservableList);
+            flush();
+            componentObservableList.addAll( fileOps.load(filename) );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void save(String filename) {
+        JobjFileOperation fileOps = new JobjFileOperation();
+        try {
+            fileOps.save(componentObservableList, filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
