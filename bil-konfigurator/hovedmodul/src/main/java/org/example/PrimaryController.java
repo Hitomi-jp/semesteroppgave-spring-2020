@@ -77,6 +77,7 @@ public class PrimaryController implements Initializable {
     private CarDatabase carDatabase = new CarDatabase();
     private final String FILENAME = "CarDataComponents.dat";
 
+    // TODO Add filtering to tableViewComponents: new TextField where you type something and the table filters out anything not matching.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCols();
