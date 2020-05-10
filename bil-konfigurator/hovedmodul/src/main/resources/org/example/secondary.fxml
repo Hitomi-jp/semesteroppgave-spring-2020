@@ -24,7 +24,7 @@
                <children>
                   <Label text="Customer List" />
                   <ChoiceBox fx:id="cbxCustomer" prefWidth="150.0" />
-                  <Label text="Car Type" />
+                  <Label text="Car Model" />
                   <ChoiceBox fx:id="cbxModel" prefWidth="150.0" />
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
@@ -37,7 +37,7 @@
             <TableView prefHeight="250.0" prefWidth="440.0">
               <columns>
                 <TableColumn fx:id="typeColumn" prefWidth="130.0" text="Type" />
-                <TableColumn fx:id="modelColumn" prefWidth="130.0" text="Model" />
+                <TableColumn fx:id="brandColumn" prefWidth="130.0" text="Brand" />
                   <TableColumn fx:id="priceColoumn" prefWidth="180.0" text="Price" />
               </columns>
             </TableView>

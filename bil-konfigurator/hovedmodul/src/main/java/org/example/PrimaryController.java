@@ -33,7 +33,7 @@ public class PrimaryController implements Initializable {
     @FXML
     private ChoiceBox<EngineType> cbxCarType;
     @FXML
-    private TextField txtCarModel;
+    private TextField txtCarBrand;
     @FXML
     private TextField txtCarPrice;
 
@@ -45,7 +45,7 @@ public class PrimaryController implements Initializable {
     @FXML
     public TableColumn<Model, String> carTypeColumn;
     @FXML
-    public TableColumn<Model, String> carModelColumn;
+    public TableColumn<Model, String> carBrandColumn;
     @FXML
     public TableColumn<Model, Number> carPriceColumn;
 
@@ -105,7 +105,7 @@ public class PrimaryController implements Initializable {
     void carTypeAdd(ActionEvent event) {
         CarTypeForm carForm = new CarTypeForm(
                 cbxCarType.getValue(),
-                txtCarModel.getText(),
+                txtCarBrand.getText(),
                 txtCarPrice.getText()
         );
         carDatabase.register(carForm);
@@ -178,7 +178,7 @@ public class PrimaryController implements Initializable {
     // Manually mapping all the columns (should autowire but didnt).
     private void initCols() {
         carTypeColumn.setCellValueFactory(typeCell -> typeCell.getValue().typeProperty());
-        carModelColumn.setCellValueFactory(modelCell -> modelCell.getValue().brandProperty());
+        carBrandColumn.setCellValueFactory(modelCell -> modelCell.getValue().brandProperty());
         carPriceColumn.setCellValueFactory(priceCell -> priceCell.getValue().priceProperty());
 
         componentNameColumn.setCellValueFactory(nameCell -> nameCell.getValue().componentNameProperty());

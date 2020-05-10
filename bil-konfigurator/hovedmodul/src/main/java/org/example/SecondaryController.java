@@ -27,7 +27,7 @@ public class SecondaryController implements Initializable {
     private TableColumn<Model, String> typeColumn;
 
     @FXML
-    private TableColumn<Customer, String> modelColumn;
+    private TableColumn<Customer, String> brandColumn;
 
     @FXML
     private TableColumn<Customer, Double> priceColoumn;
