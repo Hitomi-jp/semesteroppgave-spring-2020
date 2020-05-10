@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import validator.CarValidator;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
@@ -97,6 +96,7 @@ public class CarDatabase implements Serializable {
     /**
      * Loads data from src/main/resources/CarDataComponentsDefault.dat.
      * PS.. We never save data to this file!
+     *
      * @link https://stackoverflow.com/questions/15749192/how-do-i-load-a-file-from-resource-folder
      */
     public void loadDefaults() {
@@ -109,7 +109,7 @@ public class CarDatabase implements Serializable {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
             flush();
-            componentObservableList.addAll( fileOps.load(filename) );
+            componentObservableList.addAll(fileOps.load(filename));
         } catch (IOException e) {
             e.printStackTrace();
         }
