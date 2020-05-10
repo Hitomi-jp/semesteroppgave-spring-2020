@@ -71,9 +71,9 @@
          </children></HBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Button fx:id="btnGoToCustomer" mnemonicParsing="false" onAction="#GoToCustomer" prefHeight="50.0" prefWidth="100.0" text="Customer View" />
-            <Button mnemonicParsing="false" onAction="#btnSave" prefHeight="50.0" prefWidth="100.0" text="Save" />
-            <Button mnemonicParsing="false" onAction="#btnLoad" prefHeight="50.0" prefWidth="100.0" text="Load" />
+            <Button fx:id="btnGoToCustomer" mnemonicParsing="false" onAction="#goToCustomer" prefHeight="50.0" prefWidth="100.0" text="Customer View" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#save" prefHeight="50.0" prefWidth="100.0" text="Save" />
+            <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#load" prefHeight="50.0" prefWidth="100.0" text="Load" />
          </children>
       </VBox>
       <TextArea fx:id="txtUt" layoutX="69.0" layoutY="543.0" prefHeight="129.0" prefWidth="700.0" AnchorPane.leftAnchor="70.0" />
