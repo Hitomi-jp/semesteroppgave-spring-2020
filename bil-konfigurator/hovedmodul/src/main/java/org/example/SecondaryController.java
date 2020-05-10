@@ -1,29 +1,30 @@
 package org.example;
 
-import carRegister.CarType;
+import carRegister.CarDatabase;
+import carRegister.Model;
 import carRegister.Customer;
-import carRegister.EngineType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SecondaryController {
-
-    @FXML
-    private ChoiceBox<String> cbxCustomer;
+public class SecondaryController implements Initializable {
 
     @FXML
-    private ChoiceBox<String> cbxEngineType;
+    private ChoiceBox<Customer> cbxCustomer;
+
+    @FXML
+    private ChoiceBox<Model> cbxModel;
 
 
     @FXML
-    private TableColumn<CarType,String> typeColumn;
+    private TableColumn<Model, String> typeColumn;
 
     @FXML
     private TableColumn<Customer, String> modelColumn;
@@ -36,6 +37,8 @@ public class SecondaryController {
 
     @FXML
     private ListView<String> listviewSelectedComponents;
+
+    private CarDatabase carDatabase = App.getCarDatabase();
 
     @FXML
     void carAdd(ActionEvent event) {
@@ -66,7 +69,11 @@ public class SecondaryController {
     @FXML
     void goToAdminView() throws IOException {
         App.setRoot("primary");
-
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        cbxCustomer.getItems().addAll(carDatabase.getCustomerList());
+//        cbxModel
+    }
 }

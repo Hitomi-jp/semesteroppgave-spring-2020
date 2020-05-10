@@ -1,6 +1,6 @@
 package org.example;
 
-import carRegister.CarType;
+import carRegister.Model;
 import carRegister.Component;
 import carRegister.CarDatabase;
 import carRegister.EngineType;
@@ -41,13 +41,13 @@ public class PrimaryController implements Initializable {
      * Table for showing CarType.
      */
     @FXML
-    private TableView<CarType> tableViewCarType;
+    private TableView<Model> tableViewCarType;
     @FXML
-    public TableColumn<CarType, String> carTypeColumn;
+    public TableColumn<Model, String> carTypeColumn;
     @FXML
-    public TableColumn<CarType, String> carModelColumn;
+    public TableColumn<Model, String> carModelColumn;
     @FXML
-    public TableColumn<CarType, Number> carPriceColumn;
+    public TableColumn<Model, Number> carPriceColumn;
 
     /**
      * TextFields for CarType input.
@@ -74,7 +74,7 @@ public class PrimaryController implements Initializable {
     private TextArea txtUt;
 
     private StringConverter<Number> nStrConverter = new Converter.Price();
-    private CarDatabase carDatabase = new CarDatabase();
+    private CarDatabase carDatabase = App.getCarDatabase();
     private final String FILENAME = "CarDataComponents.dat";
 
     // TODO Add filtering to tableViewComponents: new TextField where you type something and the table filters out anything not matching.
@@ -96,6 +96,9 @@ public class PrimaryController implements Initializable {
         //tableViewComponents.getColumns().get(0).setCellValueFactory();
         componentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         componentPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(nStrConverter));
+
+
+
     }
 
     @FXML
@@ -175,7 +178,7 @@ public class PrimaryController implements Initializable {
     // Manually mapping all the columns (should autowire but didnt).
     private void initCols() {
         carTypeColumn.setCellValueFactory(typeCell -> typeCell.getValue().typeProperty());
-        carModelColumn.setCellValueFactory(modelCell -> modelCell.getValue().modelProperty());
+        carModelColumn.setCellValueFactory(modelCell -> modelCell.getValue().brandProperty());
         carPriceColumn.setCellValueFactory(priceCell -> priceCell.getValue().priceProperty());
 
         componentNameColumn.setCellValueFactory(nameCell -> nameCell.getValue().componentNameProperty());
@@ -195,7 +198,7 @@ public class PrimaryController implements Initializable {
         //tableViewComponents.setItems(allComponentData);
 
         // Simpler:
-        tableViewCarType.setItems(carDatabase.getCarTypeObservableList());
+        tableViewCarType.setItems(carDatabase.getModelObservableList());
         tableViewComponents.setItems(carDatabase.getComponentObservableList());
 
         // Debugging:
@@ -218,6 +221,7 @@ public class PrimaryController implements Initializable {
     public void load(ActionEvent actionEvent) {
         carDatabase.load(FILENAME);
     }
+
 }
 
 

@@ -4,15 +4,15 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import java.io.Serializable;
 
-public class CarType implements Serializable {
+public class Model implements Serializable {
 
     private SimpleStringProperty type;
-    private SimpleStringProperty model;
+    private SimpleStringProperty brand;
     private SimpleDoubleProperty price;
 
-    public CarType(EngineType engineType, String model, double price) {
+    public Model(EngineType engineType, String brand, double price) {
         this.type = new SimpleStringProperty(engineType.name());
-        this.model = new SimpleStringProperty(model);
+        this.brand = new SimpleStringProperty(brand);
         this.price = new SimpleDoubleProperty(price);
     }
 
@@ -20,16 +20,16 @@ public class CarType implements Serializable {
         return type;
     }
 
-    public String getModel() {
-        return model.get();
+    public String getBrand() {
+        return brand.get();
     }
 
-    public SimpleStringProperty modelProperty() {
-        return model;
+    public SimpleStringProperty brandProperty() {
+        return brand;
     }
 
-    public void setModel(String model) {
-        this.model.set(model);
+    public void setBrand(String brand) {
+        this.brand.set(brand);
     }
 
     public double getPrice() {

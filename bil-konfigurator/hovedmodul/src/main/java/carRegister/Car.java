@@ -8,33 +8,31 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import validator.CarValidator;
 
-import java.util.List;
-
 public class Car {
 
-    private transient SimpleObjectProperty<CarType> carType;
+    private transient SimpleObjectProperty<Model> carType;
     private transient SimpleStringProperty name;
     private transient SimpleDoubleProperty totalPrice;
     private transient SimpleListProperty<Component> componentList;
 
-    public Car(CarType carType, String name) {
-        this.carType = new SimpleObjectProperty<CarType>(carType);
+    public Car(Model model, String name) {
+        this.carType = new SimpleObjectProperty<Model>(model);
         this.name = new SimpleStringProperty(name);
-        this.totalPrice = new SimpleDoubleProperty(carType.getPrice());
+        this.totalPrice = new SimpleDoubleProperty(model.getPrice());
         this.componentList = new SimpleListProperty<>();
 
     }
 
-    public CarType getCarType() {
+    public Model getCarType() {
         return carType.get();
     }
 
-    public SimpleObjectProperty<CarType> carTypeProperty() {
+    public SimpleObjectProperty<Model> carTypeProperty() {
         return carType;
     }
 
-    public void setCarType(CarType carType) {
-        this.carType.set(carType);
+    public void setCarType(Model model) {
+        this.carType.set(model);
     }
 
     public double getTotalPrice() {

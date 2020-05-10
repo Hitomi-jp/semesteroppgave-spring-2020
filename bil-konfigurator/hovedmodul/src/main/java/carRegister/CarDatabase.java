@@ -11,21 +11,28 @@ import validator.CarValidator;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class CarDatabase implements Serializable {
 
-    private ObservableList<CarType> carTypeObservableList = FXCollections.observableArrayList();
+    private ObservableList<Model> modelObservableList = FXCollections.observableArrayList();
     private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
+    private ArrayList<Customer> customerList = new ArrayList<>();
     private final String FILENAME_DEFAULT = "CarDataComponentsDefault.dat";
 
     public CarDatabase() {
+        customerList.add(new Customer("Per", Collections.emptyList()) );
+        customerList.add(new Customer("Hitomi", Collections.emptyList()) );
+        customerList.add(new Customer("Maja", Collections.emptyList()) );
+        customerList.add(new Customer("Hamzeh", Collections.emptyList()) );
         loadDefaults();
     }
 
     public void register(CarTypeForm carTypeForm) throws IllegalArgumentException {
         this.validate(carTypeForm);
-        carTypeObservableList.add(carTypeForm.asCarType());
+        modelObservableList.add(carTypeForm.asCarType());
     }
 
     public void register(ComponentForm componentForm) throws IllegalArgumentException {
@@ -60,8 +67,8 @@ public class CarDatabase implements Serializable {
         return componentObservableList;
     }
 
-    public ObservableList<CarType> getCarTypeObservableList() {
-        return carTypeObservableList;
+    public ObservableList<Model> getModelObservableList() {
+        return modelObservableList;
     }
 
 
@@ -122,5 +129,9 @@ public class CarDatabase implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Customer> getCustomerList() {
+        return customerList;
     }
 }

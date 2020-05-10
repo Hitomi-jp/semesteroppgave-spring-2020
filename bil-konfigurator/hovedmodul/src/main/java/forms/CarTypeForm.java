@@ -1,6 +1,6 @@
 package forms;
 
-import carRegister.CarType;
+import carRegister.Model;
 import carRegister.EngineType;
 
 public class CarTypeForm {
@@ -26,7 +26,7 @@ public class CarTypeForm {
         return price;
     }
 
-    public CarType asCarType() {
-        return new CarType(engineType, this.model, Double.parseDouble(this.price));
+    public Model asCarType() {
+        return new Model(engineType, this.model, Double.parseDouble(this.price));
     }
 }

@@ -1,5 +1,6 @@
 package org.example;
 
+import carRegister.CarDatabase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +15,11 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static CarDatabase carDatabase = new CarDatabase();
 
     @Override
     public void start(Stage stage) throws IOException {
+        carDatabase = new CarDatabase();
         scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
         stage.show();
@@ -31,6 +34,9 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    static CarDatabase getCarDatabase() {
+        return carDatabase;
+    }
 
     public static void main(String[] args) {
         launch();
