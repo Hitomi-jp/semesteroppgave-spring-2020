@@ -37,7 +37,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView fx:id="tableViewCarType" prefHeight="220.0" prefWidth="450.0">
+            <TableView fx:id="tableViewModel" prefHeight="220.0" prefWidth="450.0">
               <columns>
                 <TableColumn fx:id="engineTypeColumn" prefWidth="150.0" text="Engine" />
                   <TableColumn fx:id="carBrandColumn" prefWidth="150.0" text="Brand" />

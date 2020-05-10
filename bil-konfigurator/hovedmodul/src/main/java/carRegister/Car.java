@@ -1,38 +1,33 @@
 package carRegister;
 
-import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import validator.CarValidator;
 
 public class Car {
 
-    private transient SimpleObjectProperty<Model> carType;
-    private transient SimpleStringProperty name;
+    private transient SimpleObjectProperty<Model> model;
     private transient SimpleDoubleProperty totalPrice;
     private transient SimpleListProperty<Component> componentList;
 
-    public Car(Model model, String name) {
-        this.carType = new SimpleObjectProperty<Model>(model);
-        this.name = new SimpleStringProperty(name);
+    public Car(Model model) {
+        this.model = new SimpleObjectProperty<Model>(model);
         this.totalPrice = new SimpleDoubleProperty(model.getPrice());
         this.componentList = new SimpleListProperty<>();
-
     }
 
-    public Model getCarType() {
-        return carType.get();
+    public Model getModel() {
+        return model.get();
     }
 
-    public SimpleObjectProperty<Model> carTypeProperty() {
-        return carType;
+    public SimpleObjectProperty<Model> modelProperty() {
+        return model;
     }
 
-    public void setCarType(Model model) {
-        this.carType.set(model);
+    public void setModel(Model model) {
+        this.model.set(model);
     }
 
     public double getTotalPrice() {
@@ -49,20 +44,4 @@ public class Car {
         }
         this.totalPrice.set(totalPrice);
     }
-
-    public String getName() {
-        return name.getValue();
-    }
-
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
-    public void setName(String name) {
-        if (!CarValidator.name(name)) {
-            throw new InvalidNameException();
-        }
-        this.name.set(name);
-    }
-
 }

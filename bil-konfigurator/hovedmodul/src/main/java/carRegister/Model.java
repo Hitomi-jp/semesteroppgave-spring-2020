@@ -6,18 +6,18 @@ import java.io.Serializable;
 
 public class Model implements Serializable {
 
-    private SimpleStringProperty type;
+    private SimpleStringProperty engineType;
     private SimpleStringProperty brand;
     private SimpleDoubleProperty price;
 
     public Model(EngineType engineType, String brand, double price) {
-        this.type = new SimpleStringProperty(engineType.name());
+        this.engineType = new SimpleStringProperty(engineType.name());
         this.brand = new SimpleStringProperty(brand);
         this.price = new SimpleDoubleProperty(price);
     }
 
-    public SimpleStringProperty typeProperty() {
-        return type;
+    public SimpleStringProperty engineTypeProperty() {
+        return engineType;
     }
 
     public String getBrand() {

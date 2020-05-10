@@ -31,7 +31,7 @@ public class PrimaryController implements Initializable {
      * TextFields for CarType input.
      */
     @FXML
-    private ChoiceBox<EngineType> cbxCarType;
+    private ChoiceBox<EngineType> cbxEngineType;
     @FXML
     private TextField txtCarBrand;
     @FXML
@@ -41,9 +41,9 @@ public class PrimaryController implements Initializable {
      * Table for showing CarType.
      */
     @FXML
-    private TableView<Model> tableViewCarType;
+    private TableView<Model> tableViewModel;
     @FXML
-    public TableColumn<Model, String> carTypeColumn;
+    public TableColumn<Model, String> engineTypeColumn;
     @FXML
     public TableColumn<Model, String> carBrandColumn;
     @FXML
@@ -83,28 +83,26 @@ public class PrimaryController implements Initializable {
         initCols();
         refreshTableViewComponents();
 
-        cbxCarType.getItems().setAll(EngineType.values());
+        cbxEngineType.getItems().setAll(EngineType.values());
+
         //This will allow the table to select multiple rows at once.
-        tableViewCarType.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableViewModel.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableViewComponents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //Tableview components column eidtable
-        tableViewCarType.setEditable(true);
+        tableViewModel.setEditable(true);
         tableViewComponents.setEditable(true);
 
         //tableViewComponents.setItems(carDatabase.getComponentObservableList());
         //tableViewComponents.getColumns().get(0).setCellValueFactory();
         componentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         componentPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(nStrConverter));
-
-
-
     }
 
     @FXML
     void carTypeAdd(ActionEvent event) {
         CarTypeForm carForm = new CarTypeForm(
-                cbxCarType.getValue(),
+                cbxEngineType.getValue(),
                 txtCarBrand.getText(),
                 txtCarPrice.getText()
         );
@@ -114,7 +112,7 @@ public class PrimaryController implements Initializable {
 
     @FXML
     void carTypeDelete(ActionEvent event) {
-        tableViewCarType.getItems().removeAll(tableViewCarType.getSelectionModel().getSelectedItems());
+        tableViewModel.getItems().removeAll(tableViewModel.getSelectionModel().getSelectedItems());
     }
 
     /**
@@ -143,9 +141,9 @@ public class PrimaryController implements Initializable {
     // TODO This should use same validation logic as CarDatabase.validate(...).
     public void componentNameEdit(TableColumn.CellEditEvent<Component, String> componentsStringCellEditEvent) {
 //        try {
-            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
-            component.setComponentName(componentsStringCellEditEvent.getNewValue());
-            refreshTableViewComponents();
+        Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+        component.setComponentName(componentsStringCellEditEvent.getNewValue());
+        refreshTableViewComponents();
 //        } catch (InvalidNameException e) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setTitle("Feil!");
@@ -160,9 +158,9 @@ public class PrimaryController implements Initializable {
     // TODO This should use same validation logic as CarDatabase.validate(...).
     public void componentPriceEdit(TableColumn.CellEditEvent<Component, Number> componentNumberCellEditEvent) {
 //        try {
-            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
-            component.setComponentPrice(componentNumberCellEditEvent.getNewValue().doubleValue());
-            refreshTableViewComponents();
+        Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+        component.setComponentPrice(componentNumberCellEditEvent.getNewValue().doubleValue());
+        refreshTableViewComponents();
 //        } catch (NumberFormatException e) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setTitle("Feil!");
@@ -177,7 +175,7 @@ public class PrimaryController implements Initializable {
     //clear all the columns(go to initialize)
     // Manually mapping all the columns (should autowire but didnt).
     private void initCols() {
-        carTypeColumn.setCellValueFactory(typeCell -> typeCell.getValue().typeProperty());
+        engineTypeColumn.setCellValueFactory(engineTypeCell -> engineTypeCell.getValue().engineTypeProperty());
         carBrandColumn.setCellValueFactory(modelCell -> modelCell.getValue().brandProperty());
         carPriceColumn.setCellValueFactory(priceCell -> priceCell.getValue().priceProperty());
 
@@ -198,7 +196,7 @@ public class PrimaryController implements Initializable {
         //tableViewComponents.setItems(allComponentData);
 
         // Simpler:
-        tableViewCarType.setItems(carDatabase.getModelObservableList());
+        tableViewModel.setItems(carDatabase.getModelObservableList());
         tableViewComponents.setItems(carDatabase.getComponentObservableList());
 
         // Debugging:
