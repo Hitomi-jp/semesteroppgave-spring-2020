@@ -23,8 +23,8 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="246.0" spacing="10.0">
                <children>
-                  <Label text="Type" />
-                  <ChoiceBox fx:id="cbxCarType" prefWidth="250.0" />
+                  <Label text="Engine Type" />
+                  <ChoiceBox fx:id="cbxEngineType" prefWidth="250.0" />
                   <Label text="Brand" />
                   <TextField fx:id="txtCarBrand" prefWidth="200.0" />
                   <Label prefHeight="20.0" prefWidth="100.0" text="Price" />
@@ -39,7 +39,7 @@
             </VBox>
             <TableView fx:id="tableViewCarType" prefHeight="220.0" prefWidth="450.0">
               <columns>
-                <TableColumn fx:id="carTypeColumn" prefWidth="150.0" text="Type" />
+                <TableColumn fx:id="engineTypeColumn" prefWidth="150.0" text="Engine" />
                   <TableColumn fx:id="carBrandColumn" prefWidth="150.0" text="Brand" />
                 <TableColumn fx:id="carPriceColumn" prefWidth="150.0" text="Price" />
               </columns>

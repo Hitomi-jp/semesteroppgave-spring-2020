@@ -36,7 +36,7 @@
             </VBox>
             <TableView prefHeight="250.0" prefWidth="440.0">
               <columns>
-                <TableColumn fx:id="typeColumn" prefWidth="130.0" text="Type" />
+                <TableColumn fx:id="engineTypeColumn" prefWidth="130.0" text="Engine" />
                 <TableColumn fx:id="brandColumn" prefWidth="130.0" text="Brand" />
                   <TableColumn fx:id="priceColoumn" prefWidth="180.0" text="Price" />
               </columns>
