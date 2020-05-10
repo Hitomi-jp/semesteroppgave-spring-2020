@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -21,14 +20,12 @@
       </Label>
       <HBox prefHeight="100.0" prefWidth="670.0" spacing="15.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="100.0">
          <children>
-            <VBox prefHeight="250.0" prefWidth="200.0" spacing="15.0">
+            <VBox prefHeight="250.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Label text="Customer List" />
                   <ChoiceBox fx:id="cbxCustomer" prefWidth="150.0" />
                   <Label text="Car Type" />
                   <ChoiceBox fx:id="cbxEngineType" prefWidth="150.0" />
-                  <Label text="Car Name" />
-                  <TextField fx:id="txtCarName" />
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#carAdd" prefHeight="26.0" prefWidth="51.0" text="Add" />
@@ -40,7 +37,7 @@
             <TableView prefHeight="250.0" prefWidth="440.0">
               <columns>
                 <TableColumn fx:id="typeColumn" prefWidth="130.0" text="Type" />
-                <TableColumn fx:id="nameColumn" prefWidth="130.0" text="Name" />
+                <TableColumn fx:id="modelColumn" prefWidth="130.0" text="Model" />
                   <TableColumn fx:id="priceColoumn" prefWidth="180.0" text="Price" />
               </columns>
             </TableView>

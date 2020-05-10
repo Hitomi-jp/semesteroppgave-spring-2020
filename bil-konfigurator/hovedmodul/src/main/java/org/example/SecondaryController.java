@@ -1,5 +1,8 @@
 package org.example;
 
+import carRegister.CarType;
+import carRegister.Customer;
+import carRegister.EngineType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -8,32 +11,31 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 public class SecondaryController {
 
     @FXML
-    private ChoiceBox<?> cbxCustomer;
+    private ChoiceBox<String> cbxCustomer;
 
     @FXML
-    private ChoiceBox<?> cbxEngineType;
+    private ChoiceBox<String> cbxEngineType;
+
 
     @FXML
-    private TextField txtCarName;
+    private TableColumn<CarType,String> typeColumn;
 
     @FXML
-    private TableColumn<?, ?> typeColumn;
+    private TableColumn<Customer, String> modelColumn;
 
     @FXML
-    private TableColumn<?, ?> nameColumn;
+    private TableColumn<Customer, Double> priceColoumn;
 
     @FXML
-    private TableColumn<?, ?> priceColoumn;
+    private ListView<String> listviewComponents;
 
     @FXML
-    private ListView<?> listviewComponents;
-
-    @FXML
-    private ListView<?> listviewSelectedComponents;
+    private ListView<String> listviewSelectedComponents;
 
     @FXML
     void carAdd(ActionEvent event) {
@@ -52,18 +54,18 @@ public class SecondaryController {
 
 
     @FXML
-    void goToAdminView() throws IOException {
-        App.setRoot("primary");
-
-    }
-
-    @FXML
     void load(ActionEvent event) {
 
     }
 
     @FXML
     void save(ActionEvent event) {
+
+    }
+
+    @FXML
+    void goToAdminView() throws IOException {
+        App.setRoot("primary");
 
     }
 
