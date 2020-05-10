@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -21,6 +22,11 @@ import java.util.ResourceBundle;
 
 
 public class PrimaryController implements Initializable {
+    /**
+     * Whole scene in AnchorPane
+     */
+    @FXML
+    private AnchorPane acpScene;
     /**
      * TextFields for CarType input.
      */
@@ -67,11 +73,6 @@ public class PrimaryController implements Initializable {
     @FXML
     private TextArea txtUt;
 
-    /**
-     * Buttons
-     */
-    public Button btnGoToCustomer;
-
     private StringConverter<Number> nStrConverter = new Converter.Price();
     private CarDatabase carDatabase = new CarDatabase();
     private final String FILENAME = "CarDataComponents.dat";
@@ -97,7 +98,7 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    void btnCarTypeAdd(ActionEvent event) {
+    void carTypeAdd(ActionEvent event) {
         CarTypeForm carForm = new CarTypeForm(
                 cbxCarType.getValue(),
                 txtCarModel.getText(),
@@ -108,7 +109,7 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    void btnCarTypeDelete(ActionEvent event) {
+    void carTypeDelete(ActionEvent event) {
         tableViewCarType.getItems().removeAll(tableViewCarType.getSelectionModel().getSelectedItems());
     }
 
@@ -118,7 +119,7 @@ public class PrimaryController implements Initializable {
      * @param event
      */
     @FXML
-    void btnComponentsAdd(ActionEvent event) {
+    void componentAdd(ActionEvent event) {
         ComponentForm compForm = new ComponentForm(
                 txtComponentName.getText(),
                 txtComponentPrice.getText()
@@ -128,7 +129,7 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    void btnComponentsDelete(ActionEvent event) {
+    void componentDelete(ActionEvent event) {
         ObservableList<Component> allComponents, selectedComponents;
         allComponents = tableViewComponents.getItems();
         selectedComponents = tableViewComponents.getSelectionModel().getSelectedItems();
@@ -201,17 +202,19 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    void GoToCustomer() throws IOException {
+    void goToCustomer() throws IOException {
         App.setRoot("secondary");
     }
 
     @FXML
-    public void btnSave(ActionEvent actionEvent) {
+    public void save(ActionEvent actionEvent) {
+        acpScene.setDisable(true);
         carDatabase.save(FILENAME);
+        acpScene.setDisable(false);
     }
 
     @FXML
-    public void btnLoad(ActionEvent actionEvent) {
+    public void load(ActionEvent actionEvent) {
         carDatabase.load(FILENAME);
     }
 }

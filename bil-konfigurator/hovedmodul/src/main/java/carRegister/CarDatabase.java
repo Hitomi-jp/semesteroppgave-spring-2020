@@ -94,6 +94,11 @@ public class CarDatabase implements Serializable {
         componentObservableList.clear();
     }
 
+    /**
+     * Loads data from src/main/resources/CarDataComponentsDefault.dat.
+     * PS.. We never save data to this file!
+     * @link https://stackoverflow.com/questions/15749192/how-do-i-load-a-file-from-resource-folder
+     */
     public void loadDefaults() {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         String filename = Objects.requireNonNull(classloader.getResource(FILENAME_DEFAULT)).getFile();

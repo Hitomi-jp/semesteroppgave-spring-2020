@@ -9,8 +9,6 @@ import java.util.List;
 public class JobjFileOperation {
 
     public List<Component> load(String filename) throws IOException {
-        System.out.println("LOADFILE: " + filename);
-
         try {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -27,6 +25,11 @@ public class JobjFileOperation {
     }
 
     public void save(List<Component> componentList, String filename) throws IOException {
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         FileOutputStream fos = new FileOutputStream(filename);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeInt(componentList.size());
