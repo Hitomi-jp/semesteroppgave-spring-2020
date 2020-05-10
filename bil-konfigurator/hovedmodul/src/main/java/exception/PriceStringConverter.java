@@ -1,11 +1,5 @@
 package exception;
 
-import carRegister.Components;
-import javafx.scene.control.Alert;
-import javafx.util.StringConverter;
-
-import java.awt.*;
-
 
 public class PriceStringConverter{
 

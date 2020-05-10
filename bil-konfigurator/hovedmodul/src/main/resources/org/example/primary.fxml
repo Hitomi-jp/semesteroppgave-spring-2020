@@ -24,11 +24,11 @@
             <VBox prefHeight="200.0" prefWidth="246.0" spacing="10.0">
                <children>
                   <Label text="Type" />
-                  <ChoiceBox fx:id="carTypeChoice" prefWidth="250.0" />
+                  <ChoiceBox fx:id="cbxCarType" prefWidth="250.0" />
                   <Label text="Model" />
-                  <TextField fx:id="txtCarTypeProductName" prefWidth="200.0" />
+                  <TextField fx:id="txtCarModel" prefWidth="200.0" />
                   <Label prefHeight="20.0" prefWidth="100.0" text="Price" />
-                  <TextField fx:id="txtCarTypePrice" />
+                  <TextField fx:id="txtCarPrice" />
                   <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="0.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnCarTypeAdd" prefHeight="26.0" prefWidth="60.0" text="Add" />
@@ -51,9 +51,9 @@
             <VBox prefHeight="200.0" prefWidth="250.0" spacing="20.0">
                <children>
                   <Label text="Components Name" />
-                  <TextField fx:id="txtComponentsProductName" />
+                  <TextField fx:id="txtComponentName" />
                   <Label text="Price" />
-                  <TextField fx:id="txtComponentsPrice" />
+                  <TextField fx:id="txtComponentPrice" />
                   <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnComponentsAdd" prefHeight="26.0" prefWidth="60.0" text="Add" />
@@ -64,16 +64,16 @@
             </VBox>
             <TableView fx:id="tableViewComponents" prefHeight="220.0" prefWidth="450.0">
               <columns>
-                <TableColumn fx:id="componentsNameColum" onEditCommit="#componentNameEdit" prefWidth="225.0" text="Name" />
-                <TableColumn fx:id="componentsPriceColum" onEditCommit="#componentsPriceEdit" prefWidth="225.0" text="Price" />
+                <TableColumn fx:id="componentNameColumn" onEditCommit="#componentNameEdit" prefWidth="225.0" text="Name" />
+                <TableColumn fx:id="componentPriceColumn" onEditCommit="#componentPriceEdit" prefWidth="225.0" text="Price" />
               </columns>
             </TableView>
          </children></HBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Button fx:id="ButtonAdmin" mnemonicParsing="false" onAction="#GoToCustomer" prefHeight="50.0" prefWidth="100.0" text="Customer View" />
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#Save" prefHeight="50.0" prefWidth="100.0" text="Save" />
-            <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#Load" prefHeight="50.0" prefWidth="100.0" text="Load" />
+            <Button fx:id="btnGoToCustomer" mnemonicParsing="false" onAction="#GoToCustomer" prefHeight="50.0" prefWidth="100.0" text="Customer View" />
+            <Button mnemonicParsing="false" onAction="#btnSave" prefHeight="50.0" prefWidth="100.0" text="Save" />
+            <Button mnemonicParsing="false" onAction="#btnLoad" prefHeight="50.0" prefWidth="100.0" text="Load" />
          </children>
       </VBox>
       <TextArea fx:id="txtUt" layoutX="69.0" layoutY="543.0" prefHeight="129.0" prefWidth="700.0" AnchorPane.leftAnchor="70.0" />

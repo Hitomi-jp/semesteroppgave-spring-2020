@@ -1,6 +1,6 @@
 package carRegister;
 
-public enum Type {
+public enum EngineType {
     ELECTRIC,
     GASOLINE,
     DIESEL,

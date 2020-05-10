@@ -1,19 +1,19 @@
 package org.example;
 
-import carRegister.Components;
-import carRegister.ComponentsRegister;
-import exception.InvalidNameException;
-import exception.PriceStringConverter;
-import file.FileOpen;
-import file.FileSave;
-import javafx.collections.FXCollections;
+import carRegister.CarType;
+import carRegister.Component;
+import carRegister.CarDatabase;
+import carRegister.EngineType;
+import converter.Converter;
+import forms.CarTypeForm;
+import forms.ComponentForm;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,88 +21,95 @@ import java.util.ResourceBundle;
 
 
 public class PrimaryController implements Initializable {
-    private boolean useTexFile = true;
-
-    FileOpen fileOpen;
-    FileSave fileSave;
-
+    /**
+     * TextFields for CarType input.
+     */
     @FXML
-    private TextField txtCarTypeProductName;
-
+    private ChoiceBox<EngineType> cbxCarType;
     @FXML
-    private TextField txtCarTypePrice;
-
+    private TextField txtCarModel;
     @FXML
-    private TextField txtComponentsProductName;
+    private TextField txtCarPrice;
 
+    /**
+     * Table for showing CarType.
+     */
     @FXML
-    private TextField txtComponentsPrice;
-
+    private TableView<CarType> tableViewCarType;
     @FXML
-    private TextField txtExtraOptionsName;
-
+    public TableColumn<CarType, String> carTypeColumn;
     @FXML
-    private TextField txtExtraOptionsPrice;
-
+    public TableColumn<CarType, String> carModelColumn;
     @FXML
-    private TableView<?> tableViewCarType;
+    public TableColumn<CarType, Number> carPriceColumn;
 
+    /**
+     * TextFields for CarType input.
+     */
     @FXML
-    private TableColumn<?, ?> carTypeNameColum;
-
+    private TextField txtComponentName;
     @FXML
-    private TableColumn<?, ?> carTypePriceColum;
+    private TextField txtComponentPrice;
 
+    /**
+     * Table for showing Components.
+     */
     @FXML
-    private TableView<Components> tableViewComponents;
-
+    private TableView<Component> tableViewComponents;
     @FXML
-    private TableColumn<Components, String> componentsNameColum;
-
+    private TableColumn<Component, String> componentNameColumn;
     @FXML
-    private TableColumn<Components, Double> componentsPriceColum;
+    private TableColumn<Component, Number> componentPriceColumn;
 
-    @FXML
-    private TableView<?> tableViewExtraOptions;
-
-    @FXML
-    private TableColumn<?, ?> extraOptionsNameColum;
-
-    @FXML
-    private TableColumn<?, ?> extraOptionsPriceColum;
-
+    /**
+     * Textarea for debugging.
+     */
     @FXML
     private TextArea txtUt;
 
-    @FXML
-    private Button ButtonAdmin;
+    /**
+     * Buttons
+     */
+    public Button btnGoToCustomer;
 
-    private PriceStringConverter.DoubleStringConverter dStrConverter = new PriceStringConverter.DoubleStringConverter();
-    private ComponentsRegister comRegister = new ComponentsRegister();
+    private StringConverter<Number> nStrConverter = new Converter.Price();
+    private CarDatabase carDatabase = new CarDatabase();
+    private final String FILENAME = "CarDataComponents.dat";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCols();
-        registerComponents();
+        refreshTableViewComponents();
 
-
+        cbxCarType.getItems().setAll(EngineType.values());
         //This will allow the table to select multiple rows at once.
+        tableViewCarType.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableViewComponents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //Tableview components column eidtable
+        tableViewCarType.setEditable(true);
         tableViewComponents.setEditable(true);
-        componentsNameColum.setCellFactory(TextFieldTableCell.forTableColumn());
-        componentsPriceColum.setCellFactory(TextFieldTableCell.forTableColumn(dStrConverter));
+
+        //tableViewComponents.setItems(carDatabase.getComponentObservableList());
+        //tableViewComponents.getColumns().get(0).setCellValueFactory();
+        componentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        componentPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(nStrConverter));
     }
 
     @FXML
     void btnCarTypeAdd(ActionEvent event) {
-
+        CarTypeForm carForm = new CarTypeForm(
+                cbxCarType.getValue(),
+                txtCarModel.getText(),
+                txtCarPrice.getText()
+        );
+        carDatabase.register(carForm);
+        refreshTableViewComponents();
     }
 
     @FXML
     void btnCarTypeDelete(ActionEvent event) {
-
+        tableViewCarType.getItems().removeAll(tableViewCarType.getSelectionModel().getSelectedItems());
     }
 
     /**
@@ -112,97 +119,101 @@ public class PrimaryController implements Initializable {
      */
     @FXML
     void btnComponentsAdd(ActionEvent event) {
-        txtUt.setText(comRegister.validateAndRegisterComponents(txtComponentsProductName.getText(), txtComponentsPrice.getText()));
-        registerComponents();
+        ComponentForm compForm = new ComponentForm(
+                txtComponentName.getText(),
+                txtComponentPrice.getText()
+        );
+        carDatabase.register(compForm);
+        refreshTableViewComponents();
     }
 
     @FXML
     void btnComponentsDelete(ActionEvent event) {
-
-        ObservableList<Components> allComponents, selectedComponents;
+        ObservableList<Component> allComponents, selectedComponents;
         allComponents = tableViewComponents.getItems();
         selectedComponents = tableViewComponents.getSelectionModel().getSelectedItems();
         allComponents.removeAll(selectedComponents);
-        txtUt.setText(comRegister.showRegister());
-
     }
 
-
-    public void componentNameEdit(TableColumn.CellEditEvent<Components, String> componentsStringCellEditEvent) {
-        try {
-            Components components = tableViewComponents.getSelectionModel().getSelectedItem();
-            components.setComponentsName(componentsStringCellEditEvent.getNewValue());
-
-        } catch (InvalidNameException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feil!");
-            alert.setHeaderText("Invalid data!");
-            alert.setContentText("Type correct date!");
-            alert.showAndWait();
-            e.printStackTrace();
-            throw new InvalidNameException();
-        }
+    // TODO This should use same validation logic as CarDatabase.validate(...).
+    public void componentNameEdit(TableColumn.CellEditEvent<Component, String> componentsStringCellEditEvent) {
+//        try {
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentName(componentsStringCellEditEvent.getNewValue());
+            refreshTableViewComponents();
+//        } catch (InvalidNameException e) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Feil!");
+//            alert.setHeaderText("Invalid data!");
+//            alert.setContentText("Type correct date!");
+//            alert.showAndWait();
+//            e.printStackTrace();
+//            throw new InvalidNameException();
+//        }
     }
 
-    public void componentsPriceEdit(TableColumn.CellEditEvent<Components, Double> componentsDoubleCellEditEvent) {
-        try {
-            Components components = tableViewComponents.getSelectionModel().getSelectedItem();
-            components.setComponentsPrice(componentsDoubleCellEditEvent.getNewValue());
-        } catch (NumberFormatException e) {
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feil!");
-            alert.setHeaderText("Invalid data!");
-            alert.setContentText("Type correct date!");
-            alert.showAndWait();
-            e.printStackTrace();
-            throw new NumberFormatException();
-        }
-
+    // TODO This should use same validation logic as CarDatabase.validate(...).
+    public void componentPriceEdit(TableColumn.CellEditEvent<Component, Number> componentNumberCellEditEvent) {
+//        try {
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentPrice(componentNumberCellEditEvent.getNewValue().doubleValue());
+            refreshTableViewComponents();
+//        } catch (NumberFormatException e) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Feil!");
+//            alert.setHeaderText("Invalid data!");
+//            alert.setContentText("Type correct date!");
+//            alert.showAndWait();
+//            e.printStackTrace();
+//            throw new NumberFormatException();
+//        }
     }
-
-    public void btnComponentsFileSave(ActionEvent actionEvent) {
-
-    }
-
-    public void btnComponentsFileOpen(ActionEvent actionEvent) {
-
-    }
-
-    public ObservableList<Components> getComponents() {
-        ObservableList<Components> components = FXCollections.observableArrayList();
-        components.add(new Components("Motor", 500000));
-        components.add(new Components("Rim", 20000));
-
-        return components;
-    }
-
 
     //clear all the columns(go to initialize)
+    // Manually mapping all the columns (should autowire but didnt).
     private void initCols() {
-        componentsNameColum.setCellValueFactory(new PropertyValueFactory<Components, String>("componentsName"));
-        componentsPriceColum.setCellValueFactory(new PropertyValueFactory<Components, Double>("componentsPrice"));
+        carTypeColumn.setCellValueFactory(typeCell -> typeCell.getValue().typeProperty());
+        carModelColumn.setCellValueFactory(modelCell -> modelCell.getValue().modelProperty());
+        carPriceColumn.setCellValueFactory(priceCell -> priceCell.getValue().priceProperty());
+
+        componentNameColumn.setCellValueFactory(nameCell -> nameCell.getValue().componentNameProperty());
+        componentPriceColumn.setCellValueFactory(priceCell -> priceCell.getValue().componentPriceProperty());
+//        componentNameColumn.setCellValueFactory(new PropertyValueFactory<Component, String>("componentName"));
+//        componentPriceColumn.setCellValueFactory(new PropertyValueFactory<Component, Double>("componentPrice"));
     }
 
-    private void registerComponents() {
+    /**
+     * Workaround for observable list not working currently
+     * https://stackoverflow.com/questions/37753266/javafx-tableview-and-observablelist-how-to-auto-update-the-table
+     */
+    private void refreshTableViewComponents() {
+        // Original:
+        //ObservableList<Component> allComponentData = FXCollections.observableArrayList();
+        //allComponentData.addAll(carDatabase.all_components());
+        //tableViewComponents.setItems(allComponentData);
 
-        ObservableList<Components> allComponentsData = FXCollections.observableArrayList();
-        allComponentsData.addAll(comRegister.all_components());
-        tableViewComponents.setItems(allComponentsData);
-    }
+        // Simpler:
+        tableViewCarType.setItems(carDatabase.getCarTypeObservableList());
+        tableViewComponents.setItems(carDatabase.getComponentObservableList());
 
-    public void btnOptionsAdd(ActionEvent actionEvent) {
-    }
-
-    public void btnOptionsDelete(ActionEvent actionEvent) {
+        // Debugging:
+        txtUt.setText(carDatabase.showData());
     }
 
     @FXML
     void GoToCustomer() throws IOException {
         App.setRoot("secondary");
-
     }
 
+    @FXML
+    public void btnSave(ActionEvent actionEvent) {
+        carDatabase.save(FILENAME);
+    }
+
+    @FXML
+    public void btnLoad(ActionEvent actionEvent) {
+        carDatabase.load(FILENAME);
+    }
 }
 
 
