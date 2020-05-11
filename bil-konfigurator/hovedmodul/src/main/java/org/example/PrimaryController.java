@@ -5,7 +5,9 @@ import carRegister.Component;
 import carRegister.CarDatabase;
 import carRegister.EngineType;
 import converter.Converter;
-import forms.CarTypeForm;
+import exception.InvalidDataException;
+import exception.Popups;
+import forms.ModelForm;
 import forms.ComponentForm;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,40 +110,50 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
-    void carTypeAdd(ActionEvent event) {
-        CarTypeForm carForm = new CarTypeForm(
+    void modelAdd(ActionEvent event) {
+        ModelForm modelForm = new ModelForm(
                 cbxEngineType.getValue(),
                 txtCarBrand.getText(),
                 txtCarPrice.getText()
         );
-        carDatabase.register(carForm);
+        try {
+            carDatabase.register(modelForm);
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
         refreshTableViewComponents();
     }
 
     @FXML
-    void carTypeDelete(ActionEvent event) {
+    void modelDelete(ActionEvent event) {
         tableViewModel.getItems().removeAll(tableViewModel.getSelectionModel().getSelectedItems());
     }
 
     //TODO this make editable?
     public void engineEdit(TableColumn.CellEditEvent<Model, String> modelStringCellEditEvent) {
-        //   Model model = tableViewModel.getSelectionModel().getSelectedItem();
+//           Model model = tableViewModel.getSelectionModel().getSelectedItem();
         //   model.(componentNumberCellEditEvent.getNewValue().doubleValue());
         //  refreshTableViewComponents();
     }
 
     /**
      * added by Hitomi
+     *
      * @param modelStringCellEditEvent
      */
     public void brandEdit(TableColumn.CellEditEvent<Model, String> modelStringCellEditEvent) {
         Model model = tableViewModel.getSelectionModel().getSelectedItem();
-        model.setBrand(modelStringCellEditEvent.getNewValue());
+        try {
+            model.setBrand(modelStringCellEditEvent.getNewValue());
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
         refreshTableViewComponents();
     }
 
     /**
      * added by Hitomi
+     *
      * @param modelNumberCellEditEvent
      */
 
@@ -163,7 +175,11 @@ public class PrimaryController implements Initializable {
                 txtComponentName.getText(),
                 txtComponentPrice.getText()
         );
-        carDatabase.register(compForm);
+        try {
+            carDatabase.register(compForm);
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
         refreshTableViewComponents();
     }
 
@@ -177,36 +193,24 @@ public class PrimaryController implements Initializable {
 
     // TODO This should use same validation logic as CarDatabase.validate(...).
     public void componentNameEdit(TableColumn.CellEditEvent<Component, String> componentsStringCellEditEvent) {
-//        try {
-        Component component = tableViewComponents.getSelectionModel().getSelectedItem();
-        component.setComponentName(componentsStringCellEditEvent.getNewValue());
+        try {
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentName(componentsStringCellEditEvent.getNewValue());
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
         refreshTableViewComponents();
-//        } catch (InvalidNameException e) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Feil!");
-//            alert.setHeaderText("Invalid data!");
-//            alert.setContentText("Type correct date!");
-//            alert.showAndWait();
-//            e.printStackTrace();
-//            throw new InvalidNameException();
-//        }
     }
 
     // TODO This should use same validation logic as CarDatabase.validate(...).
     public void componentPriceEdit(TableColumn.CellEditEvent<Component, Number> componentNumberCellEditEvent) {
-//        try {
-        Component component = tableViewComponents.getSelectionModel().getSelectedItem();
-        component.setComponentPrice(componentNumberCellEditEvent.getNewValue().doubleValue());
+        try {
+            Component component = tableViewComponents.getSelectionModel().getSelectedItem();
+            component.setComponentPrice(componentNumberCellEditEvent.getNewValue().doubleValue());
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
         refreshTableViewComponents();
-//        } catch (NumberFormatException e) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Feil!");
-//            alert.setHeaderText("Invalid data!");
-//            alert.setContentText("Type correct date!");
-//            alert.showAndWait();
-//            e.printStackTrace();
-//            throw new NumberFormatException();
-//        }
     }
 
     //clear all the columns(go to initialize)
@@ -236,11 +240,14 @@ public class PrimaryController implements Initializable {
         tableViewModel.setItems(carDatabase.getModelObservableList());
         tableViewComponents.setItems(carDatabase.getComponentObservableList());
 
+        tableViewModel.refresh();
+        tableViewComponents.refresh();
+
         /**
          * added by Hitomi
          */
         // Debugging:
-        txtUt.setText(carDatabase.showModelData()+carDatabase.showData());
+        txtUt.setText(carDatabase.showModelData() + carDatabase.showData());
 
     }
 

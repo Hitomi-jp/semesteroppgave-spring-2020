@@ -31,8 +31,8 @@
                   <TextField fx:id="txtCarPrice" />
                   <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="0.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#carTypeAdd" prefHeight="26.0" prefWidth="60.0" text="Add" />
-                        <Button mnemonicParsing="false" onAction="#carTypeDelete" prefWidth="60.0" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#modelAdd" prefHeight="26.0" prefWidth="60.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#modelDelete" prefWidth="60.0" text="Delete" />
                      </children>
                   </HBox>
                </children>

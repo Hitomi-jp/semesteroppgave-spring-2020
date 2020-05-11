@@ -1,7 +1,6 @@
 package carRegister;
 
-import exception.InvalidDataTypeException;
-import exception.InvalidNameException;
+import exception.*;
 import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,19 +21,13 @@ public class Model implements Serializable {
      * @param price
      */
     public Model(EngineType engineType, String brand, double price) {
-        if(engineType == null){
-            throw new IllegalArgumentException("Cannot be blank. Choose Engine");
-        }
-        if(!CarValidator.name(brand)){
-            throw new InvalidNameException("Start with Capital letter");
-        }
-        if (!CarValidator.price(price)) {
-            throw new InvalidDataTypeException();
-        }
-
         this.engineType = new SimpleStringProperty(engineType.name());
         this.brand = new SimpleStringProperty(brand);
         this.price = new SimpleDoubleProperty(price);
+    }
+
+    public String getEngineType() {
+        return engineType.get();
     }
 
     public SimpleStringProperty engineTypeProperty() {
@@ -42,6 +35,10 @@ public class Model implements Serializable {
             throw new IllegalArgumentException("Cannot be blank. Choose Engine");
         }
         return engineType;
+    }
+
+    public void setEngineType(String engineType) {
+        this.engineType.set(engineType);
     }
 
     public String getBrand() {
@@ -54,7 +51,7 @@ public class Model implements Serializable {
 
     public void setBrand(String brand) {
         if(!CarValidator.name(brand)){
-            throw new InvalidNameException(brand);
+            throw new InvalidDataException("Invalid brand: " + brand);
         }
         this.brand.set(brand);
     }
@@ -69,7 +66,7 @@ public class Model implements Serializable {
 
     public void setPrice(double price) {
         if(!CarValidator.price(price)){
-            throw new InvalidDataTypeException();
+            throw new InvalidDataException("");
         }
         this.price.set(price);
     }

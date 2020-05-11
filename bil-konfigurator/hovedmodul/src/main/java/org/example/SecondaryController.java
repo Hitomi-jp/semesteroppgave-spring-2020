@@ -22,7 +22,6 @@ public class SecondaryController implements Initializable {
     @FXML
     private ChoiceBox<Model> cbxModel;
 
-
     @FXML
     private TableColumn<Model, String> typeColumn;
 
@@ -74,6 +73,6 @@ public class SecondaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cbxCustomer.getItems().addAll(carDatabase.getCustomerList());
-//        cbxModel
+        cbxModel.setItems( carDatabase.getModelObservableList() );
     }
 }

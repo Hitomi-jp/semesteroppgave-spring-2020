@@ -3,14 +3,14 @@ package forms;
 import carRegister.Model;
 import carRegister.EngineType;
 
-public class CarTypeForm {
+public class ModelForm {
     private EngineType engineType;
-    private String model;
+    private String brand;
     private String price;
 
-    public CarTypeForm(EngineType engineType, String name, String price) {
+    public ModelForm(EngineType engineType, String brand, String price) {
         this.engineType = engineType;
-        this.model = name;
+        this.brand = brand;
         this.price = price;
     }
 
@@ -18,15 +18,15 @@ public class CarTypeForm {
         return engineType;
     }
 
-    public String getModel() {
-        return model;
+    public String getBrand() {
+        return brand;
     }
 
     public String getPrice() {
         return price;
     }
 
-    public Model asCarType() {
-        return new Model(engineType, this.model, Double.parseDouble(this.price));
+    public Model asModel() {
+        return new Model(engineType, this.brand, Double.parseDouble(this.price));
     }
 }

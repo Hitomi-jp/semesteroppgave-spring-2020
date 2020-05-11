@@ -1,5 +1,6 @@
 package carRegister;
 
+import exception.InvalidDataException;
 import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -35,7 +36,7 @@ public class Component implements Serializable {
 
     public void setComponentName(String componentName) {
         if (!CarValidator.name(componentName)) {
-            throw new InvalidNameException();
+            throw new InvalidDataException("Invalid name: " + componentName);
         }
         this.componentName.set(componentName);
     }

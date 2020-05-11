@@ -1,9 +1,10 @@
 package carRegister;
 
+import exception.InvalidDataException;
 import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import file.JobjFileOperation;
-import forms.CarTypeForm;
+import forms.ModelForm;
 import forms.ComponentForm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class CarDatabase implements Serializable {
@@ -30,38 +32,17 @@ public class CarDatabase implements Serializable {
         loadDefaults();
     }
 
-    public void register(CarTypeForm carTypeForm) throws IllegalArgumentException {
-        this.validate(carTypeForm);
-        modelObservableList.add(carTypeForm.asCarType());
+    public void register(ModelForm modelForm) throws InvalidDataException {
+        CarValidator.validate(modelForm);
+        modelObservableList.add(modelForm.asModel());
     }
 
     public void register(ComponentForm componentForm) throws IllegalArgumentException {
-        this.validate(componentForm);
+        CarValidator.validate(componentForm);
         componentObservableList.add(componentForm.asComponent());
     }
 
-    private void validate(ComponentForm componentForm) throws IllegalArgumentException {
-        if (!CarValidator.name(componentForm.getName())) {
-            throw new InvalidNameException(componentForm.getName());
-        }
 
-        double componentPrice;
-        try {
-            componentPrice = Double.parseDouble(componentForm.getPrice());
-        } catch (NumberFormatException e) {
-            throw new InvalidPriceException(componentForm.getPrice());
-        }
-
-        if (!CarValidator.price(componentPrice)) {
-            throw new InvalidPriceException(componentForm.getPrice());
-        }
-
-    }
-
-    // TODO make sure carForm has valid data
-    private void validate(CarTypeForm carTypeForm) throws IllegalArgumentException {
-
-    }
 
     public ObservableList<Component> getComponentObservableList() {
         return componentObservableList;
@@ -131,7 +112,11 @@ public class CarDatabase implements Serializable {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
             flush();
-            componentObservableList.addAll(fileOps.load(filename));
+            List<Component> componentList = fileOps.load(filename);
+            for (Component c : componentList ) {
+                CarValidator.validate(c);
+                componentObservableList.add(c);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
