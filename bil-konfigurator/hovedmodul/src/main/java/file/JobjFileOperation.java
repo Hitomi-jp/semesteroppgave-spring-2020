@@ -1,6 +1,7 @@
 package file;
 
 import carRegister.Component;
+import carRegister.Model;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,25 +9,37 @@ import java.util.List;
 
 public class JobjFileOperation {
 
-    public List<Component> load(String filename) throws IOException {
+    public LoadedResources load(String filename) throws IOException {
         try {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Component> list = new ArrayList<>();
+            LoadedResources result = new LoadedResources();
+
             int compCount = ois.readInt();
             for (int i = 0; i < compCount; i++) {
-                list.add((Component) ois.readObject());
+                result.compList.add((Component) ois.readObject());
             }
-            return list;
+
+            int modelCount = ois.readInt();
+            for (int i = 0; i < modelCount; i++) {
+                result.modelList.add((Model) ois.readObject());
+            }
+
+            return result;
         } catch (EOFException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void save(List<Component> componentList, String filename) throws IOException {
+    public static class LoadedResources {
+        public List<Component> compList = new ArrayList<>();
+        public List<Model> modelList = new ArrayList<>();
+    }
+
+    public void save(List<Component> componentList, List<Model> modelList, String filename) throws IOException {
         try {
-            Thread.sleep(4000);
+            Thread.sleep(40);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -35,6 +48,10 @@ public class JobjFileOperation {
         oos.writeInt(componentList.size());
         for (Component c : componentList) {
             oos.writeObject(c);
+        }
+        oos.writeInt(modelList.size());
+        for (Model m : modelList) {
+            oos.writeObject(m);
         }
         oos.close();
     }

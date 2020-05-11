@@ -94,6 +94,7 @@ public class CarDatabase implements Serializable {
 
     public void flush() {
         componentObservableList.clear();
+        modelObservableList.clear();
     }
 
     /**
@@ -112,11 +113,17 @@ public class CarDatabase implements Serializable {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
             flush();
-            List<Component> componentList = fileOps.load(filename);
-            for (Component c : componentList ) {
+            JobjFileOperation.LoadedResources resources = fileOps.load(filename);
+            for (Component c : resources.compList ) {
                 CarValidator.validate(c);
                 componentObservableList.add(c);
             }
+
+            for (Model m : resources.modelList ) {
+                CarValidator.validate(m);
+                modelObservableList.add(m);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +132,7 @@ public class CarDatabase implements Serializable {
     public void save(String filename) {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
-            fileOps.save(componentObservableList, filename);
+            fileOps.save(componentObservableList, modelObservableList, filename);
         } catch (IOException e) {
             e.printStackTrace();
         }

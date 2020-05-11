@@ -40,7 +40,19 @@ public class SecondaryController implements Initializable {
     private CarDatabase carDatabase = App.getCarDatabase();
 
     @FXML
+    void customerSelect(ActionEvent event) {
+        Customer currentCustomer = cbxCustomer.getSelectionModel().getSelectedItem();
+
+
+
+        System.out.println(currentCustomer.getName());
+
+    }
+
+    @FXML
     void carAdd(ActionEvent event) {
+//        Customer currentCustomer = cbxCustomer.getSelectionModel().getSelectedItem();
+//        currentCustomer.getCarList()
 
     }
 

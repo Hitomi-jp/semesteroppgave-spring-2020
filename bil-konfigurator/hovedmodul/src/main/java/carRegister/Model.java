@@ -6,6 +6,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import validator.CarValidator;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Model implements Serializable {
@@ -74,5 +77,22 @@ public class Model implements Serializable {
     @Override
     public String toString() {
         return String.format("%s,%s,%s", engineType.getValue(), brand.getValue(),price.getValue());
+    }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        //s.defaultWriteObject();
+        s.writeUTF(getEngineType());
+        s.writeUTF(getBrand());
+        s.writeDouble(getPrice());
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        this.engineType = new SimpleStringProperty();
+        this.brand = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+
+        setEngineType(s.readUTF());
+        setBrand(s.readUTF());
+        setPrice(s.readDouble());
     }
 }
