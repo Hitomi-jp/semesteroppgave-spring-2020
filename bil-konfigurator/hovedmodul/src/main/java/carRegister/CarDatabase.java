@@ -25,10 +25,18 @@ public class CarDatabase implements Serializable {
     private final String FILENAME_DEFAULT = "CarDataComponentsDefault.dat";
 
     public CarDatabase() {
-        customerList.add(new Customer("Per", Collections.emptyList()) );
-        customerList.add(new Customer("Hitomi", Collections.emptyList()) );
-        customerList.add(new Customer("Maja", Collections.emptyList()) );
-        customerList.add(new Customer("Hamzeh", Collections.emptyList()) );
+        ObservableList<Car> cars1 = FXCollections.observableArrayList();
+        cars1.add(new Car(new Model(EngineType.ELECTRIC, "Tesla X", 80000.0)));
+        customerList.add(new Customer("Per", cars1) );
+        ObservableList<Car> cars2 = FXCollections.observableArrayList();
+        cars2.add(new Car(new Model(EngineType.DIESEL, "Citroen C4", 40000.0)));
+        customerList.add(new Customer("Hitomi", cars2) );
+        ObservableList<Car> cars3 = FXCollections.observableArrayList();
+        cars3.add(new Car(new Model(EngineType.ELECTRIC, "Mercedes", 32000.0)));
+        customerList.add(new Customer("Maja", cars3) );
+        ObservableList<Car> cars4 = FXCollections.observableArrayList();
+        cars4.add(new Car(new Model(EngineType.GASOLINE, "Jeep", 45000.0)));
+        customerList.add(new Customer("Hamzeh", cars4) );
         loadDefaults();
     }
 

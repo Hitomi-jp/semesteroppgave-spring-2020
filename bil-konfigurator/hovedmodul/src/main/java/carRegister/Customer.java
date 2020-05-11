@@ -15,10 +15,11 @@ public class Customer {
     private transient SimpleStringProperty name;
     private transient SimpleListProperty<Car> carList;
 
-    public Customer(String name, List<Car> carList) {
+    public Customer(String name, ObservableList<Car> carList) {
         this.name = new SimpleStringProperty(name);
-        this.carList = new SimpleListProperty<Car>();
-        this.carList.addAll(carList);
+        this.carList = new SimpleListProperty<Car>(carList);
+
+//        this.carList.addAll(carList);
     }
 
     public String getName() {

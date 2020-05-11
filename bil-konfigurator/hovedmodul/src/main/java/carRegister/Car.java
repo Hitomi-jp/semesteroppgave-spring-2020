@@ -4,6 +4,8 @@ import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import validator.CarValidator;
 
 public class Car {
@@ -15,7 +17,7 @@ public class Car {
     public Car(Model model) {
         this.model = new SimpleObjectProperty<Model>(model);
         this.totalPrice = new SimpleDoubleProperty(model.getPrice());
-        this.componentList = new SimpleListProperty<>();
+        this.componentList = new SimpleListProperty<>(FXCollections.observableArrayList());
     }
 
     public Model getModel() {
@@ -35,7 +37,12 @@ public class Car {
     }
 
     public SimpleDoubleProperty totalPriceProperty() {
-        return totalPrice;
+        double sum = this.model.get().getPrice();
+        for(Component comp : this.getComponentList()) {
+            sum += comp.getComponentPrice();
+        }
+        this.totalPrice.set(sum);
+        return this.totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -43,5 +50,21 @@ public class Car {
             throw new InvalidPriceException();
         }
         this.totalPrice.set(totalPrice);
+    }
+
+    public ObservableList<Component> getComponentList() {
+        return componentList.get();
+    }
+
+    public SimpleListProperty<Component> componentListProperty() {
+        return componentList;
+    }
+
+    public void setComponentList(ObservableList<Component> componentList) {
+        this.componentList.set(componentList);
+    }
+
+    public void addComponent(Component selectedComponent) {
+        this.componentList.get().add( selectedComponent );
     }
 }

@@ -53,6 +53,12 @@ public class Component implements Serializable {
         this.componentPrice.set(componentPrice);
     }
 
+//    @Override
+//    public boolean equals(Object obj) {
+//        return this.toString().equals(obj.toString());
+//    }
+
+
     @Override
     public String toString() {
         return String.format("%s,%s", componentName.getValue(), componentPrice.getValue());
