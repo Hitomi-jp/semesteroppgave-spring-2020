@@ -95,6 +95,14 @@ public class PrimaryController implements Initializable {
 
         //tableViewComponents.setItems(carDatabase.getComponentObservableList());
         //tableViewComponents.getColumns().get(0).setCellValueFactory();
+
+        /**
+         * make editable
+         */
+        //engineTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        carBrandColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        carPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(nStrConverter));
+
         componentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         componentPriceColumn.setCellFactory(TextFieldTableCell.forTableColumn(nStrConverter));
     }
@@ -114,6 +122,35 @@ public class PrimaryController implements Initializable {
     void carTypeDelete(ActionEvent event) {
         tableViewModel.getItems().removeAll(tableViewModel.getSelectionModel().getSelectedItems());
     }
+
+    //TODO this make editable?
+    public void engineEdit(TableColumn.CellEditEvent<Model, String> modelStringCellEditEvent) {
+        //   Model model = tableViewModel.getSelectionModel().getSelectedItem();
+        //   model.(componentNumberCellEditEvent.getNewValue().doubleValue());
+        //  refreshTableViewComponents();
+    }
+
+    /**
+     * added by Hitomi
+     * @param modelStringCellEditEvent
+     */
+    public void brandEdit(TableColumn.CellEditEvent<Model, String> modelStringCellEditEvent) {
+        Model model = tableViewModel.getSelectionModel().getSelectedItem();
+        model.setBrand(modelStringCellEditEvent.getNewValue());
+        refreshTableViewComponents();
+    }
+
+    /**
+     * added by Hitomi
+     * @param modelNumberCellEditEvent
+     */
+
+    public void priceEdit(TableColumn.CellEditEvent<Model, Number> modelNumberCellEditEvent) {
+        Model model = tableViewModel.getSelectionModel().getSelectedItem();
+        model.setPrice(modelNumberCellEditEvent.getNewValue().doubleValue());
+        refreshTableViewComponents();
+    }
+
 
     /**
      * This method will create a new component object and add it to the table
@@ -199,9 +236,14 @@ public class PrimaryController implements Initializable {
         tableViewModel.setItems(carDatabase.getModelObservableList());
         tableViewComponents.setItems(carDatabase.getComponentObservableList());
 
+        /**
+         * added by Hitomi
+         */
         // Debugging:
-        txtUt.setText(carDatabase.showData());
+        txtUt.setText(carDatabase.showModelData()+carDatabase.showData());
+
     }
+
 
     @FXML
     void goToCustomer() throws IOException {

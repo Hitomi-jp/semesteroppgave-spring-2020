@@ -82,7 +82,22 @@ public class CarDatabase implements Serializable {
             componentsList.append(c).append("\n");
         }
         return componentsList.toString();
+
+        }
+
+    /**
+     * added by Hitomi
+     * @return
+     */
+    public String showModelData() {
+        StringBuilder modelList = new StringBuilder();
+        for (Model m : modelObservableList) {
+            modelList.append(m).append("\n");
+        }
+        return modelList.toString();
     }
+
+
 
     public String toCvs() {
         StringBuilder sb = new StringBuilder();

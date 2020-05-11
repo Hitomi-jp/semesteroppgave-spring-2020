@@ -39,9 +39,9 @@
             </VBox>
             <TableView fx:id="tableViewModel" prefHeight="220.0" prefWidth="450.0">
               <columns>
-                <TableColumn fx:id="engineTypeColumn" prefWidth="150.0" text="Engine" />
-                  <TableColumn fx:id="carBrandColumn" prefWidth="150.0" text="Brand" />
-                <TableColumn fx:id="carPriceColumn" prefWidth="150.0" text="Price" />
+                <TableColumn fx:id="engineTypeColumn" onEditCommit="#engineEdit" prefWidth="150.0" text="Engine" />
+                  <TableColumn fx:id="carBrandColumn" onEditCommit="#brandEdit" prefWidth="150.0" text="Brand" />
+                <TableColumn fx:id="carPriceColumn" onEditCommit="#priceEdit" prefWidth="150.0" text="Price" />
               </columns>
             </TableView>
          </children>
