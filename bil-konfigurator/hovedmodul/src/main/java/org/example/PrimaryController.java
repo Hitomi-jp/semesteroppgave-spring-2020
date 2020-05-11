@@ -260,13 +260,13 @@ public class PrimaryController implements Initializable {
     @FXML
     public void save(ActionEvent actionEvent) {
         acpScene.setDisable(true);
-        carDatabase.save(FILENAME);
+        carDatabase.saveAdminData(FILENAME);
         acpScene.setDisable(false);
     }
 
     @FXML
     public void load(ActionEvent actionEvent) {
-        carDatabase.load(FILENAME);
+        carDatabase.loadAdminData(FILENAME);
     }
 
 }

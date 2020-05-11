@@ -53,4 +53,12 @@ public class Customer {
         return this.getName();
     }
 
+    public String toCsv() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName()).append(";");
+        for ( Car car : this.getCarList()) {
+            sb.append( car.toCsv() );
+        }
+        return sb.toString();
+    }
 }

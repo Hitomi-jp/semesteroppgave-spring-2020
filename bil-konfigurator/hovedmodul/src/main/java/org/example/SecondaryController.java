@@ -86,7 +86,7 @@ public class SecondaryController implements Initializable {
 
     @FXML
     void save(ActionEvent event) {
-
+        carDatabase.saveCustomerData("CustomerData.csv");
     }
 
     @FXML

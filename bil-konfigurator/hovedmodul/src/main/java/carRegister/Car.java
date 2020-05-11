@@ -67,4 +67,14 @@ public class Car {
     public void addComponent(Component selectedComponent) {
         this.componentList.get().add( selectedComponent );
     }
+
+    public String toCsv() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( getModel().toCsv() );
+        sb.append( getTotalPrice()).append(";");
+        for ( Component c : getComponentList()) {
+            sb.append( c.toCsv() );
+        }
+        return sb.toString();
+    }
 }

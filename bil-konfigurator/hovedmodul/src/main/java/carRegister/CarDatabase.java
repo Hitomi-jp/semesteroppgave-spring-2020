@@ -1,8 +1,7 @@
 package carRegister;
 
 import exception.InvalidDataException;
-import exception.InvalidNameException;
-import exception.InvalidPriceException;
+import file.CsvFileOperation;
 import file.JobjFileOperation;
 import forms.ModelForm;
 import forms.ComponentForm;
@@ -13,8 +12,6 @@ import validator.CarValidator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class CarDatabase implements Serializable {
@@ -22,22 +19,41 @@ public class CarDatabase implements Serializable {
     private ObservableList<Model> modelObservableList = FXCollections.observableArrayList();
     private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
     private ArrayList<Customer> customerList = new ArrayList<>();
-    private final String FILENAME_DEFAULT = "CarDataComponentsDefault.dat";
+    private final String DEFAULT_ADMINDATA_FILENAME = "CarDataComponentsDefault.dat";
+    private final String DEFAULT_CUSTOMERDATA_FILENAME = "CustomerDataDefault.csv";
 
     public CarDatabase() {
         ObservableList<Car> cars1 = FXCollections.observableArrayList();
-        cars1.add(new Car(new Model(EngineType.ELECTRIC, "Tesla X", 80000.0)));
+        Car tesla = new Car(new Model(EngineType.ELECTRIC, "Tesla X", 80000.0));
+//        tesla.addComponent( new Component("Rims", 2000) );
+//        tesla.addComponent( new Component("GPS", 9000) );
+//        tesla.addComponent( new Component("Red paint", 2000) );
+        cars1.add(tesla);
         customerList.add(new Customer("Per", cars1) );
+
         ObservableList<Car> cars2 = FXCollections.observableArrayList();
-        cars2.add(new Car(new Model(EngineType.DIESEL, "Citroen C4", 40000.0)));
+        Car bmw = new Car(new Model(EngineType.ELECTRIC, "BMW i3", 60000.0));
+//        bmw.addComponent( new Component("Antenna", 10) );
+//        bmw.addComponent( new Component("Performance", 900) );
+//        bmw.addComponent( new Component("Insurance", 599) );
+        cars2.add(bmw);
         customerList.add(new Customer("Hitomi", cars2) );
+
         ObservableList<Car> cars3 = FXCollections.observableArrayList();
-        cars3.add(new Car(new Model(EngineType.ELECTRIC, "Mercedes", 32000.0)));
+        Car merc = new Car(new Model(EngineType.GASOLINE, "Mercedes SLK", 260000.0));
+//        merc.addComponent( new Component("Supersport", 10000) );
+//        merc.addComponent( new Component("Leather", 8000) );
+        cars3.add(merc);
         customerList.add(new Customer("Maja", cars3) );
+
         ObservableList<Car> cars4 = FXCollections.observableArrayList();
-        cars4.add(new Car(new Model(EngineType.GASOLINE, "Jeep", 45000.0)));
-        customerList.add(new Customer("Hamzeh", cars4) );
-        loadDefaults();
+        Car honda = new Car(new Model(EngineType.HYBRID, "Honda", 60000.0));
+//        honda.addComponent( new Component("Long range", 7200) );
+        cars4.add(honda);
+        customerList.add(new Customer("Aina", cars4) );
+
+
+        loadAdminDefaults();
     }
 
     public void register(ModelForm modelForm) throws InvalidDataException {
@@ -87,15 +103,6 @@ public class CarDatabase implements Serializable {
     }
 
 
-
-    public String toCvs() {
-        StringBuilder sb = new StringBuilder();
-        for (Component c : componentObservableList) {
-            sb.append(c.toCvs()).append("\n");
-        }
-        return sb.toString();
-    }
-
     public void deleteComponent(Component componentToRemove) {
         componentObservableList.remove(componentToRemove);
     }
@@ -105,19 +112,36 @@ public class CarDatabase implements Serializable {
         modelObservableList.clear();
     }
 
+
+    public void loadCustomerDefaults() {
+
+    }
+
+    public void loadCustomerData() {
+
+    }
+
+    public void saveCustomerData(String filename) {
+        CsvFileOperation csvFileOperation = new CsvFileOperation();
+        try {
+            csvFileOperation.save(customerList, filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Loads data from src/main/resources/CarDataComponentsDefault.dat.
      * PS.. We never save data to this file!
      *
      * @link https://stackoverflow.com/questions/15749192/how-do-i-load-a-file-from-resource-folder
      */
-    public void loadDefaults() {
+    public void loadAdminDefaults() {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        String filename = Objects.requireNonNull(classloader.getResource(FILENAME_DEFAULT)).getFile();
-        load(filename);
+        String filename = Objects.requireNonNull(classloader.getResource(DEFAULT_ADMINDATA_FILENAME)).getFile();
+        loadAdminData(filename);
     }
 
-    public void load(String filename) {
+    public void loadAdminData(String filename) {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
             flush();
@@ -137,7 +161,7 @@ public class CarDatabase implements Serializable {
         }
     }
 
-    public void save(String filename) {
+    public void saveAdminData(String filename) {
         JobjFileOperation fileOps = new JobjFileOperation();
         try {
             fileOps.save(componentObservableList, modelObservableList, filename);

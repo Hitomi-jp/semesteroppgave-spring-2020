@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 public class Model implements Serializable {
 
+    private static final long serialVersionUID = 807099939700614954L;
     private SimpleStringProperty engineType;
     private SimpleStringProperty brand;
     private SimpleDoubleProperty price;
@@ -94,5 +95,13 @@ public class Model implements Serializable {
         setEngineType(s.readUTF());
         setBrand(s.readUTF());
         setPrice(s.readDouble());
+    }
+
+    public String toCsv() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getEngineType()).append(";");
+        sb.append(getBrand()).append(";");
+        sb.append(getPrice()).append(";");
+        return sb.toString();
     }
 }

@@ -10,7 +10,7 @@ import validator.CarValidator;
 import java.io.*;
 
 public class Component implements Serializable {
-
+    private static final long serialVersionUID = 3105790766458545454L;
     private transient SimpleStringProperty componentName;
     private transient SimpleDoubleProperty componentPrice;
 
@@ -64,11 +64,10 @@ public class Component implements Serializable {
         return String.format("%s,%s", componentName.getValue(), componentPrice.getValue());
     }
 
-    public String toCvs() {
+    public String toCsv() {
         StringBuilder sb = new StringBuilder();
-        sb.append(componentName.getValue()).append(",");
-        sb.append(componentPrice.getValue()).append(",");
-        //sb.append("\n")
+        sb.append(componentName.getValue()).append(";");
+        sb.append(componentPrice.getValue()).append(";");
         return sb.toString();
     }
 
@@ -92,4 +91,5 @@ public class Component implements Serializable {
         setComponentName(s.readUTF());
         setComponentPrice(s.readDouble());
     }
+
 }
