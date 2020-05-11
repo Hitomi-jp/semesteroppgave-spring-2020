@@ -23,7 +23,7 @@
             <VBox prefHeight="250.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Label text="Customer List" />
-                  <ChoiceBox fx:id="cbxCustomer" onAction="#customerSelect" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbxCustomer" onAction="#customerSelect" prefWidth="200.0" />
                   <Label text="Car Model" />
                   <ChoiceBox fx:id="cbxModel" prefWidth="200.0" />
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
@@ -34,7 +34,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView prefHeight="250.0" prefWidth="440.0">
+            <TableView fx:id="tableViewCar" prefHeight="250.0" prefWidth="440.0">
               <columns>
                 <TableColumn fx:id="engineTypeColumn" prefWidth="130.0" text="Engine" />
                 <TableColumn fx:id="brandColumn" prefWidth="130.0" text="Brand" />
