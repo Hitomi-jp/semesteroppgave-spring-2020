@@ -11,14 +11,13 @@ import validator.CarValidator;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class CarDatabase implements Serializable {
 
     private ObservableList<Model> modelObservableList = FXCollections.observableArrayList();
     private ObservableList<Component> componentObservableList = FXCollections.observableArrayList();
-    private ArrayList<Customer> customerList = new ArrayList<>();
+    private ObservableList<Customer> customerObservableList = FXCollections.observableArrayList();
     private final String DEFAULT_ADMINDATA_FILENAME = "CarDataComponentsDefault.dat";
     private final String DEFAULT_CUSTOMERDATA_FILENAME = "CustomerDataDefault.csv";
 
@@ -29,7 +28,7 @@ public class CarDatabase implements Serializable {
 //        tesla.addComponent( new Component("GPS", 9000) );
 //        tesla.addComponent( new Component("Red paint", 2000) );
         cars1.add(tesla);
-        customerList.add(new Customer("Per", cars1) );
+        customerObservableList.add(new Customer("Per", cars1) );
 
         ObservableList<Car> cars2 = FXCollections.observableArrayList();
         Car bmw = new Car(new Model(EngineType.ELECTRIC, "BMW i3", 60000.0));
@@ -37,20 +36,20 @@ public class CarDatabase implements Serializable {
 //        bmw.addComponent( new Component("Performance", 900) );
 //        bmw.addComponent( new Component("Insurance", 599) );
         cars2.add(bmw);
-        customerList.add(new Customer("Hitomi", cars2) );
+        customerObservableList.add(new Customer("Hitomi", cars2) );
 
         ObservableList<Car> cars3 = FXCollections.observableArrayList();
         Car merc = new Car(new Model(EngineType.GASOLINE, "Mercedes SLK", 260000.0));
 //        merc.addComponent( new Component("Supersport", 10000) );
 //        merc.addComponent( new Component("Leather", 8000) );
         cars3.add(merc);
-        customerList.add(new Customer("Maja", cars3) );
+        customerObservableList.add(new Customer("Maja", cars3) );
 
         ObservableList<Car> cars4 = FXCollections.observableArrayList();
         Car honda = new Car(new Model(EngineType.HYBRID, "Honda", 60000.0));
 //        honda.addComponent( new Component("Long range", 7200) );
         cars4.add(honda);
-        customerList.add(new Customer("Aina", cars4) );
+        customerObservableList.add(new Customer("Aina", cars4) );
 
 
         loadAdminDefaults();
@@ -76,7 +75,9 @@ public class CarDatabase implements Serializable {
         return modelObservableList;
     }
 
-
+    public ObservableList<Customer> getCustomerObservableList() {
+        return customerObservableList;
+    }
 //    public void setComponentObservableList(ObservableList<Component> componentObservableList) {
 //        this.componentObservableList = componentObservableList;
 //    }
@@ -117,14 +118,20 @@ public class CarDatabase implements Serializable {
 
     }
 
-    public void loadCustomerData() {
-
+    public void loadCustomerData(String filename) {
+        CsvFileOperation csvFileOperation = new CsvFileOperation();
+        try {
+            customerObservableList.clear();
+            customerObservableList.addAll(csvFileOperation.load(filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveCustomerData(String filename) {
         CsvFileOperation csvFileOperation = new CsvFileOperation();
         try {
-            csvFileOperation.save(customerList, filename);
+            csvFileOperation.save(customerObservableList, filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,7 +177,5 @@ public class CarDatabase implements Serializable {
         }
     }
 
-    public ArrayList<Customer> getCustomerList() {
-        return customerList;
-    }
+
 }

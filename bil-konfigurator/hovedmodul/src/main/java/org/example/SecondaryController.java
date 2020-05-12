@@ -1,6 +1,7 @@
 package org.example;
 
 import carRegister.*;
+import exception.InvalidDataException;
 import exception.Popups;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class SecondaryController implements Initializable {
 
@@ -48,11 +48,14 @@ public class SecondaryController implements Initializable {
 
     @FXML
     void customerSelect(ActionEvent event) {
-        currentCustomer = cbxCustomer.getSelectionModel().getSelectedItem();
-        tableViewCar.setItems(currentCustomer.getCarList());
-        listviewSelectedComponents.getItems().clear();
-        listviewComponents.getItems().clear();
-        refreshTableViewComponents();
+        System.out.println("customerSelect");
+        if ( !cbxCustomer.getSelectionModel().isEmpty()) {
+            currentCustomer = cbxCustomer.getSelectionModel().getSelectedItem();
+            tableViewCar.setItems(currentCustomer.getCarList());
+            listviewSelectedComponents.getItems().clear();
+            listviewComponents.getItems().clear();
+            refreshTableViewComponents();
+        }
     }
 
     @FXML
@@ -81,12 +84,18 @@ public class SecondaryController implements Initializable {
 
     @FXML
     void load(ActionEvent event) {
-
+        try {
+            carDatabase.loadCustomerData("UserData.csv");
+        } catch (InvalidDataException e) {
+            Popups.showErrorDialog(e.getMessage());
+        }
+        cbxCustomer.getSelectionModel().clearAndSelect(0);
+        refreshTableViewComponents();
     }
 
     @FXML
     void save(ActionEvent event) {
-        carDatabase.saveCustomerData("CustomerData.csv");
+        carDatabase.saveCustomerData("UserData.csv");
     }
 
     @FXML
@@ -96,17 +105,22 @@ public class SecondaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cbxCustomer.getItems().addAll(carDatabase.getCustomerList());
-        cbxModel.setItems( carDatabase.getModelObservableList() );
+//        cbxCustomer.getItems().addAll(carDatabase.getCustomerList());
+//        cbxModel.setItems( carDatabase.getModelObservableList() );
 
         engineTypeColumn.setCellValueFactory(engineTypeCell -> engineTypeCell.getValue().getModel().engineTypeProperty());
         brandColumn.setCellValueFactory(brandCell -> brandCell.getValue().getModel().brandProperty());
         priceColoumn.setCellValueFactory(priceCell -> priceCell.getValue().totalPriceProperty());
+//        cbxCustomer.getItems().addAll(carDatabase.getCustomerList());
+        cbxCustomer.setItems(carDatabase.getCustomerObservableList());
+        cbxModel.setItems( carDatabase.getModelObservableList() );
+        refreshTableViewComponents();
 
     }
 
     private void refreshTableViewComponents() {
         if (currentCustomer != null ) {
+            System.out.println("refresh currentCust: " + currentCustomer + "\thash: " + currentCustomer.hashCode() + "\tcars.size: " + currentCustomer.getCarList().size());
             tableViewCar.setItems(currentCustomer.getCarList());
         }
         tableViewCar.refresh();

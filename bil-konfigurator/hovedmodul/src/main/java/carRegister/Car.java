@@ -77,4 +77,14 @@ public class Car {
         }
         return sb.toString();
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( getModel().toString() );
+        sb.append( getTotalPrice() );
+        for ( Component c : getComponentList()) {
+            sb.append( c.toString() );
+        }
+        return sb.toString();
+    }
 }

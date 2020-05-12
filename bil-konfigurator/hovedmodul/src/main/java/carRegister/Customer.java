@@ -1,5 +1,6 @@
 package carRegister;
 
+import exception.InvalidDataException;
 import exception.InvalidNameException;
 import exception.InvalidPriceException;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -16,10 +17,17 @@ public class Customer {
     private transient SimpleListProperty<Car> carList;
 
     public Customer(String name, ObservableList<Car> carList) {
-        this.name = new SimpleStringProperty(name);
+        this.name = new SimpleStringProperty();
+        setName(name);
         this.carList = new SimpleListProperty<Car>(carList);
 
 //        this.carList.addAll(carList);
+    }
+
+    public static Customer fromCvs(String[] data) {
+//        Customer c = new Customer(data[0]);
+//        Array
+        return null;
     }
 
     public String getName() {
@@ -32,7 +40,7 @@ public class Customer {
 
     public void setName(String name) {
         if (!CarValidator.name(name)) {
-            throw new InvalidNameException();
+            throw new InvalidDataException("Invalid customer name: " + name);
         }
         this.name.set(name);
     }
@@ -50,7 +58,12 @@ public class Customer {
     }
 
     public String toString() {
-        return this.getName();
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName());
+//        for ( Car car : this.getCarList()) {
+//            sb.append( car.toString() );
+//        }
+        return sb.toString();
     }
 
     public String toCsv() {

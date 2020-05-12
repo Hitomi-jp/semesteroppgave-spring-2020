@@ -14,12 +14,10 @@ import java.util.regex.Pattern;
 
 public class CarValidator {
 
-    // TODO Refactor: replace with .check(String str)
     public static boolean name(String name) {
         return Pattern.matches("^[A-Z].*", name);
     }
 
-    // TODO Refactor: replace with .check(double dbl)
     public static boolean price(double price) {
         return price >= 0.0;
     }
